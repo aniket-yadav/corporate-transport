@@ -1,5 +1,6 @@
+import 'package:corporatetransportapp/assets/custom_theme.dart';
 import 'package:corporatetransportapp/route/routes.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const TransportApp());
@@ -10,11 +11,10 @@ class TransportApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NeumorphicApp(
+    return MaterialApp(
       routes: routes,
-      theme: const NeumorphicThemeData(
-        baseColor: Color(0xff121212),    
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: customTheme,
     );
   }
 }

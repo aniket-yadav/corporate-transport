@@ -34,7 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_neumorphic: ^3.2.0
+  numberpicker: ^2.1.1
   provider: ^6.0.3
   http: ^0.13.4
 
@@ -80,7 +80,7 @@ flutter:
     - family: Cardo
       fonts:
         - asset: assets/fonts/cardo_regular.ttf
-        - aseet: assets/fonts/cardo_bold.ttf
+        - asset: assets/fonts/cardo_bold.ttf
           weight: 700
         - asset: assets/fonts/cardo_italic.ttf
           style: italic
