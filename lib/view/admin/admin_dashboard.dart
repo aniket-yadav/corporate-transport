@@ -37,9 +37,9 @@ class _AdminDashboardState extends State<AdminDashboard>
   double? _getIndicatorPosition(int index) {
     var isLtr = Directionality.of(context) == TextDirection.ltr;
     if (isLtr) {
-      return lerpDouble(-1.0, 1.0, index / 3);
+      return lerpDouble(-1.0, 1.0, index / 4);
     } else {
-      return lerpDouble(1.0, -1.0, index / 3);
+      return lerpDouble(1.0, -1.0, index / 4);
     }
   }
 
@@ -100,7 +100,7 @@ class _AdminDashboardState extends State<AdminDashboard>
                       label: "Employee",
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.person),
+                      icon: Icon(Icons.time_to_leave),
                       label: "Vehicle",
                     )
                   ]),
@@ -113,7 +113,7 @@ class _AdminDashboardState extends State<AdminDashboard>
                   duration: const Duration(milliseconds: 200),
                   child: Container(
                     color: const Color(0xFF107189),
-                    width: width / 4,
+                    width: width / 5,
                     height: 1.5,
                   ),
                 ),
@@ -125,6 +125,8 @@ class _AdminDashboardState extends State<AdminDashboard>
           child: PageView(
             onPageChanged: onPageChanged,
             controller: _pageController,
+            allowImplicitScrolling: false,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               ProfileScreen(
                 openDrawer: openDrawer,
