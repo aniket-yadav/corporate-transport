@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "175725074976",
+    "project_id": "corporate-transport-app",
+    "storage_bucket": "corporate-transport-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175725074976:android:264a38dd064d4c9b423a45",
+        "android_client_info": {
+          "package_name": "com.corporatetransport.app.corporatetransportapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175725074976-d7jhe36qoprqohofcgtjl6o08u75iaug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCYfysWiB8p3LTaFMvHLPzV-lObp5-Jt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175725074976-d7jhe36qoprqohofcgtjl6o08u75iaug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

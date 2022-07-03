@@ -37,6 +37,7 @@ dependencies:
   numberpicker: ^2.1.1
   provider: ^6.0.3
   http: ^0.13.4
+  firebase_core: ^1.19.1
 
 dev_dependencies:
   flutter_test:

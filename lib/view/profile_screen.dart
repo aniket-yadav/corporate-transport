@@ -17,15 +17,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            widget.openDrawer();
-          },
-          icon: const Icon(
-            CupertinoIcons.line_horizontal_3_decrease_circle_fill,
-            size: 35,
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            IconButton(
+              onPressed: () {
+                widget.openDrawer();
+              },
+              icon: const Icon(
+                CupertinoIcons.line_horizontal_3_decrease_circle_fill,
+                size: 45,
+                color: Color(0xFF107189),
+              ),
+            ),
+          ],
         ),
       ),
     );
