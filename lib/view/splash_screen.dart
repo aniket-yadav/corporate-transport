@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/view/admin/admin_main_screen.dart';
+import 'package:corporatetransportapp/view/driver/driver_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/constants.dart' as constants;
 
@@ -14,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushNamed(AdminMainScreen.routeName);
+      Navigator.of(context).pushNamed(DriverMainScreen.routeName);
     });
     super.initState();
   }
