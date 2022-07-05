@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/menu/menu_header.dart';
+import 'package:corporatetransportapp/view/admin/feedbacks.dart';
 import 'package:flutter/material.dart';
 
 class AdminMenuScreen extends StatefulWidget {
@@ -35,27 +36,33 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                      vertical: 10.0,
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.feedback,
-                          color: Color(0xFF107189),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "Feedback",
-                          style: TextStyle(
-                            fontSize: 15.0,
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(Feedbacks.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.feedback,
+                            color: Color(0xFF107189),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Feedback",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
