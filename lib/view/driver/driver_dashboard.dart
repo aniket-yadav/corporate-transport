@@ -1,10 +1,9 @@
 import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
-import 'package:corporatetransportapp/view/admin/driver_list.dart';
-import 'package:corporatetransportapp/view/admin/employee_list.dart';
-import 'package:corporatetransportapp/view/admin/map_screen.dart';
-import 'package:corporatetransportapp/view/admin/vehicles_list.dart';
+import 'package:corporatetransportapp/view/driver/driver_map.dart';
+import 'package:corporatetransportapp/view/driver/riders.dart';
+import 'package:corporatetransportapp/view/driver/vehicle.dart';
 import 'package:corporatetransportapp/view/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +36,9 @@ class _DriverDashboardState extends State<DriverDashboard>
   double? _getIndicatorPosition(int index) {
     var isLtr = Directionality.of(context) == TextDirection.ltr;
     if (isLtr) {
-      return lerpDouble(-1.0, 1.0, index / 4);
+      return lerpDouble(-1.0, 1.0, index / 3);
     } else {
-      return lerpDouble(1.0, -1.0, index / 4);
+      return lerpDouble(1.0, -1.0, index / 3);
     }
   }
 
@@ -89,20 +88,16 @@ class _DriverDashboardState extends State<DriverDashboard>
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(CupertinoIcons.person_3_fill),
-                      label: "Driver",
+                      label: "Riders",
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.map),
                       label: "Map",
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(CupertinoIcons.person_crop_square_fill),
-                      label: "Employee",
-                    ),
-                    BottomNavigationBarItem(
                       icon: Icon(Icons.time_to_leave),
-                      label: "Vehicle",
-                    )
+                      label: "My Vehicle",
+                    ),
                   ]),
               Positioned(
                 top: 0,
@@ -113,7 +108,7 @@ class _DriverDashboardState extends State<DriverDashboard>
                   duration: const Duration(milliseconds: 200),
                   child: Container(
                     color: const Color(0xFF107189),
-                    width: width / 5,
+                    width: width / 4,
                     height: 1.5,
                   ),
                 ),
@@ -131,10 +126,9 @@ class _DriverDashboardState extends State<DriverDashboard>
               ProfileScreen(
                 openDrawer: openDrawer,
               ),
-              const DriverList(),
-              const MapScreen(),
-              const EmployeeList(),
-              const VehiclesList(),
+              const Riders(),
+              const DriverMap(),
+              const Vehicle(),
             ],
           ),
         ),

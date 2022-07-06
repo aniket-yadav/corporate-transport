@@ -1,6 +1,6 @@
 import 'package:corporatetransportapp/menu/menu_header.dart';
 import 'package:corporatetransportapp/view/add_feedback.dart';
-import 'package:corporatetransportapp/view/admin/feedbacks.dart';
+import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:flutter/material.dart';
 
 class DriverMenuScreen extends StatefulWidget {
@@ -37,6 +37,35 @@ class _DriverMenuScreenState extends State<DriverMenuScreen> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(ChangePassword.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.security,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Change Password",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();

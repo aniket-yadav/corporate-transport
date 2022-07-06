@@ -4,6 +4,7 @@ import 'package:corporatetransportapp/view/admin/add_employee.dart';
 import 'package:corporatetransportapp/view/admin/add_vehicle.dart';
 import 'package:corporatetransportapp/view/admin/admin_main_screen.dart';
 import 'package:corporatetransportapp/view/admin/feedbacks.dart';
+import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/driver/driver_main_screen.dart';
 import 'package:corporatetransportapp/view/employee/employee_main_screen.dart';
 import 'package:corporatetransportapp/view/splash_screen.dart';
@@ -19,4 +20,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   AddFeedback.routeName: (_) => const AddFeedback(),
   DriverMainScreen.routeName: (_) => const DriverMainScreen(),
   EmployeeMainScreen.routeName: (_) => const EmployeeMainScreen(),
+  ChangePassword.routeName: (_) => const ChangePassword(),
 };
