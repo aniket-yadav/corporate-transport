@@ -6,6 +6,7 @@ import 'package:corporatetransportapp/view/admin/admin_main_screen.dart';
 import 'package:corporatetransportapp/view/admin/feedbacks.dart';
 import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/driver/driver_main_screen.dart';
+import 'package:corporatetransportapp/view/employee/chat.dart';
 import 'package:corporatetransportapp/view/employee/employee_main_screen.dart';
 import 'package:corporatetransportapp/view/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,4 +22,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   DriverMainScreen.routeName: (_) => const DriverMainScreen(),
   EmployeeMainScreen.routeName: (_) => const EmployeeMainScreen(),
   ChangePassword.routeName: (_) => const ChangePassword(),
+  Chat.routeName: (_) => const Chat(),
 };
