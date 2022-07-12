@@ -39,6 +39,9 @@ dependencies:
   http: ^0.13.4
   firebase_core: ^1.19.1
   google_maps_flutter: ^2.1.8
+  shared_preferences: ^2.0.15
+  encrypt: ^5.0.1
+  firebase_crashlytics: ^2.8.4
 
 dev_dependencies:
   flutter_test:
@@ -50,7 +53,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
+  flutter_launcher_icons: "^0.9.2"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -72,6 +75,11 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/corporate_transport.png"
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

@@ -156,9 +156,6 @@ class _AdminDashboardState extends State<AdminDashboard>
     );
   }
 
-  void appointmentCardClickHandle() {
-    onTabTapped(2);
-  }
 
   @override
   void dispose() {
