@@ -54,7 +54,7 @@ class SessionManager {
     return Encryptor.decrypt(prefs.getString(tokenKey) ?? '');
   }
 
-  Future<bool> signOut() async {
+  static Future<bool> signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(userProfile);
     prefs.remove(userRole);

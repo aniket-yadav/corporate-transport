@@ -24,6 +24,8 @@ class DataController with ChangeNotifier {
   User get user => _user;
 
   getUser() async {
+    var userdata = await SessionManager.getUser();
+    print("userdata $userdata");
     user = User.fromJson(jsonDecode(await SessionManager.getUser()));
   }
 
@@ -42,8 +44,9 @@ class DataController with ChangeNotifier {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
         var role = jsonDecode(res.body)['role'];
+        var userId = jsonDecode(res.body)['userid'];
         SessionManager.saveRole(role);
-        fetchProfile(userid: role, role: jsonDecode(res.body)['role']);
+        fetchProfile(userid: userId, role: role);
         if (role == Role.admin.name) {
           Navigator.of(GlobalVariable.navState.currentContext!)
               .pushReplacementNamed(AdminMainScreen.routeName);
@@ -61,7 +64,6 @@ class DataController with ChangeNotifier {
   }
 
   void fetchProfile({required String userid, required String role}) async {
-    String role = await SessionManager.getRole();
     String endPoint = '';
     if (role == Role.admin.name) {
       endPoint = services.getAdmin;
@@ -79,6 +81,7 @@ class DataController with ChangeNotifier {
     };
 
     var res = await serviceCallPost(body: body, path: endPoint);
+    print(res.body);
     print(res.body);
     print(res.statusCode);
     if (res.statusCode == 200) {

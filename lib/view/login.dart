@@ -1,4 +1,3 @@
-
 import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -145,19 +144,6 @@ class _LoginState extends State<Login> {
                               child: const Text("Login"),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                            ),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "Or",
-                              style: TextStyle(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                          
                         ],
                       ),
                     ),

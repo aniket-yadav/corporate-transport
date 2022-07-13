@@ -1,6 +1,9 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/widgets/data_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/images.dart' as icons;
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   final void Function() openDrawer;
@@ -17,6 +20,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<DataController>(context);
+    print(userProvider.user.toJson());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -49,27 +54,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     alignment: Alignment.center,
                     child: Column(
-                      children: const [
-                        Image(
+                      children: [
+                        const Image(
                           image: AssetImage(
                             icons.profilePlaceholder,
                           ),
                           width: 120,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Text(
-                          "Aniket Yadav",
-                          style: TextStyle(
+                          userProvider.user.name ?? '',
+                          style: const TextStyle(
                             fontSize: 20.0,
                             color: Color(0xff191919),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "Admin",
-                          style: TextStyle(
+                          userProvider.user.role ?? '',
+                          style: const TextStyle(
                             fontSize: 14.0,
                             color: Color(0xff797979),
                             fontWeight: FontWeight.bold,
@@ -81,42 +86,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                left: 20,
-                top: 20.0,
-                right: 20.0,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0xFFcfe3e7),
-                      blurRadius: 2,
-                    )
-                  ]),
-              padding: const EdgeInsets.all(
-                10.0,
-              ),
-              child: Row(
-                children: const [
-                  Icon(
-                    Icons.call,
-                    color: Color(0xFF107189),
-                  ),
-                  SizedBox(
-                    width: 15.0,
-                  ),
-                  Text(
-                    "o409234723",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
+            DataTile(
+              icon: Icons.call,
+              label: userProvider.user.mobile ?? '',
+            ),
+            DataTile(
+              icon: Icons.email,
+              label: userProvider.user.email ?? '',
             ),
           ],
         ),

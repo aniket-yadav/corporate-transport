@@ -1,4 +1,6 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Feedbacks extends StatefulWidget {
   const Feedbacks({Key? key}) : super(key: key);
@@ -8,6 +10,16 @@ class Feedbacks extends StatefulWidget {
 }
 
 class _FeedbacksState extends State<Feedbacks> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final dataController =
+          Provider.of<DataController>(context, listen: false);
+      dataController.getFeedbacks();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

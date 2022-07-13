@@ -1,3 +1,4 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/enum/roles.dart';
 import 'package:corporatetransportapp/utils/global_variable.dart';
 import 'package:corporatetransportapp/utils/session_manager.dart';
@@ -7,6 +8,7 @@ import 'package:corporatetransportapp/view/employee/employee_main_screen.dart';
 import 'package:corporatetransportapp/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/images.dart' as icons;
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String role = await SessionManager.getRole();
 
     if (hasUser) {
+      Provider.of<DataController>(GlobalVariable.navState.currentContext!, listen: false).getUser();
       if (role == Role.admin.name) {
         Navigator.of(GlobalVariable.navState.currentContext!)
             .pushReplacementNamed(AdminMainScreen.routeName);

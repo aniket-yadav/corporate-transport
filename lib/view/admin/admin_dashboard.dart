@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/view/admin/driver_list.dart';
 import 'package:corporatetransportapp/view/admin/employee_list.dart';
 import 'package:corporatetransportapp/view/admin/map_screen.dart';
@@ -8,6 +9,7 @@ import 'package:corporatetransportapp/view/admin/vehicles_list.dart';
 import 'package:corporatetransportapp/view/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdminDashboard extends StatefulWidget {
   final VoidCallback? openDrawer;
@@ -30,6 +32,13 @@ class _AdminDashboardState extends State<AdminDashboard>
       initialPage: _pageIndex,
       keepPage: false,
     );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final dataController =
+          Provider.of<DataController>(context, listen: false);
+      dataController.fetchProfile(
+          userid: dataController.user.adminid ?? '',
+          role: dataController.user.role ?? '');
+    });
 
     super.initState();
   }
@@ -155,7 +164,6 @@ class _AdminDashboardState extends State<AdminDashboard>
       curve: Curves.easeInOut,
     );
   }
-
 
   @override
   void dispose() {
