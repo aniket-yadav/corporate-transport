@@ -3,4 +3,4 @@ const getFeedbacks = "api/feedbacks.php";
 const login = "api/login.php";
 const getAdmin = "api/get_admin.php";
 const getDriver = "api/get_driver.php";
-const getRider = "api/get_rider.php";
+const getRider = "api/get_employee.php";

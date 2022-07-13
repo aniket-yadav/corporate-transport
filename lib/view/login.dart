@@ -157,19 +157,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "Register",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                          
                         ],
                       ),
                     ),
