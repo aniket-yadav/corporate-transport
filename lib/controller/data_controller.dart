@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:corporatetransportapp/model/feedback_model.dart';
+import 'package:corporatetransportapp/model/feedback_response.dart';
 import 'package:corporatetransportapp/service/service_call_get.dart';
 import 'package:corporatetransportapp/service/services.dart' as services;
 import 'package:corporatetransportapp/enum/roles.dart';
@@ -106,13 +108,40 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addFeedbackService,
     );
-    print(res.body);
-    print(res.statusCode);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  List<FeedbackModel> _feedBacks = [];
+
+  List<FeedbackModel> get feedBacks => _feedBacks;
+
+  set feedBacks(List<FeedbackModel> value) {
+    _feedBacks = value;
+    notifyListeners();
   }
 
   getFeedbacks() async {
     var res = await serviceCallGet(path: services.getFeedbacks);
-    print(res.statusCode);
+
     print(res.body);
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      FeedbackResponse feedbackResponse =
+          FeedbackResponse.fromJson(jsonDecode(res.body));
+      if (feedbackResponse.success == true) {
+        if (feedbackResponse.data != null) {
+          feedBacks = feedbackResponse.data ?? [];
+        } else {
+          feedBacks = [];
+        }
+      } else {
+        feedBacks = [];
+      }
+    } else {
+      feedBacks = [];
+    }
   }
 }

@@ -1,11 +1,11 @@
-class Feedback {
+class FeedbackModel {
   String? feedbackid;
   String? comment;
   String? author;
   String? rate;
   String? date;
   String? email;
-  Feedback({
+  FeedbackModel({
     this.feedbackid,
     this.comment,
     this.author,
@@ -14,8 +14,8 @@ class Feedback {
     this.email,
   });
 
-  factory Feedback.fromJson(Map<String, dynamic>? json) {
-    return Feedback(
+  factory FeedbackModel.fromJson(Map<String, dynamic>? json) {
+    return FeedbackModel(
       author: json?['author'],
       comment: json?['comment'],
       date: json?['date'],
