@@ -144,4 +144,37 @@ class DataController with ChangeNotifier {
       feedBacks = [];
     }
   }
+
+  addDriver({
+    String? name,
+    String? email,
+    String? age,
+    String? gender,
+    String? mobile,
+    String? aadharno,
+    String? experience,
+    String? address,
+    String? pincode,
+  }) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "email": email,
+      "age": age,
+      "gender": gender,
+      "mobile": mobile,
+      "aadharno": aadharno,
+      "experience": experience,
+      "address": address,
+      "pincode": pincode,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.addDriverService,
+    );
+    print(res.body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 }
