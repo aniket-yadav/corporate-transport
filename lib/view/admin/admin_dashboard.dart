@@ -38,6 +38,7 @@ class _AdminDashboardState extends State<AdminDashboard>
       dataController.fetchProfile(
           userid: dataController.user.adminid ?? '',
           role: dataController.user.role ?? '');
+      dataController.getDrivers();
     });
 
     super.initState();

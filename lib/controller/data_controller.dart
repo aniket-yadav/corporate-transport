@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:corporatetransportapp/model/driver_model.dart';
+import 'package:corporatetransportapp/model/drivers_response.dart';
 import 'package:corporatetransportapp/model/feedback_model.dart';
 import 'package:corporatetransportapp/model/feedback_response.dart';
 import 'package:corporatetransportapp/service/service_call_get.dart';
@@ -175,6 +177,37 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  List<DriverModel> _drivers = [];
+
+  List<DriverModel> get drivers => _drivers;
+
+  set drivers(List<DriverModel> value) {
+    _drivers = value;
+    notifyListeners();
+  }
+
+  getDrivers() async {
+    var res = await serviceCallGet(path: services.getDrivers);
+
+    print(res.body);
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      DriversResponse driverResponse =
+          DriversResponse.fromJson(jsonDecode(res.body));
+      if (driverResponse.success == true) {
+        if (driverResponse.data != null) {
+          drivers = driverResponse.data ?? [];
+        } else {
+          drivers = [];
+        }
+      } else {
+        drivers = [];
+      }
+    } else {
+      drivers = [];
     }
   }
 }
