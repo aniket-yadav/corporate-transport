@@ -1,7 +1,9 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:corporatetransportapp/widgets/gender_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/constants.dart' as constants;
+import 'package:provider/provider.dart';
 
 class AddEmployee extends StatefulWidget {
   const AddEmployee({Key? key}) : super(key: key);
@@ -13,10 +15,17 @@ class AddEmployee extends StatefulWidget {
 
 class _AddEmployeeState extends State<AddEmployee> {
   int currentAge = 25;
-
+  
   String selectedGender = "";
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController empIdController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final dataController = Provider.of<DataController>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -32,7 +41,24 @@ class _AddEmployeeState extends State<AddEmployee> {
             vertical: 15.0,
           ),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              var name = nameController.text.trim();
+              var email = emailController.text.trim();
+              var mobile = mobileController.text.trim();
+              var employeeId = empIdController.text.trim();
+              var address = addressController.text.trim();
+              var pincode = pincodeController.text.trim();
+              dataController.addEmployee(
+                empid: employeeId,
+                address: address,
+                age: '$currentAge',
+                email: email,
+                gender: selectedGender,
+                mobile: mobile,
+                name: name,
+                pincode: pincode,
+              );
+            },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
@@ -68,8 +94,33 @@ class _AddEmployeeState extends State<AddEmployee> {
                   horizontal: 15.0,
                   vertical: 10.0,
                 ),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    filled: true,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 10.0,
+                ),
+                child: const Text(
+                  "Email",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 10.0,
+                ),
+                child: TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
                     filled: true,
                   ),
                 ),
@@ -161,8 +212,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                   horizontal: 15.0,
                   vertical: 8.0,
                 ),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: mobileController,
+                  decoration: const InputDecoration(
                     filled: true,
                   ),
                 ),
@@ -184,8 +236,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                   horizontal: 15.0,
                   vertical: 8.0,
                 ),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: empIdController,
+                  decoration: const InputDecoration(
                     filled: true,
                   ),
                 ),
@@ -207,11 +260,38 @@ class _AddEmployeeState extends State<AddEmployee> {
                   horizontal: 15.0,
                   vertical: 8.0,
                 ),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: addressController,
+                  decoration: const InputDecoration(
                     filled: true,
                   ),
                   maxLines: null,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 8.0,
+                ),
+                child: const Text(
+                  "Pincode",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 8.0,
+                ),
+                child: TextField(
+                  controller: pincodeController,
+                  decoration: const InputDecoration(
+                    filled: true,
+                    counterText: '',
+                  ),
+                  maxLength: 6,
                 ),
               ),
               const SizedBox(

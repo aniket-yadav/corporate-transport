@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:corporatetransportapp/model/driver_model.dart';
 import 'package:corporatetransportapp/model/drivers_response.dart';
+import 'package:corporatetransportapp/model/employee_model.dart';
+import 'package:corporatetransportapp/model/employees_response.dart';
 import 'package:corporatetransportapp/model/feedback_model.dart';
 import 'package:corporatetransportapp/model/feedback_response.dart';
 import 'package:corporatetransportapp/service/service_call_get.dart';
@@ -208,6 +210,68 @@ class DataController with ChangeNotifier {
       }
     } else {
       drivers = [];
+    }
+  }
+
+  addEmployee({
+    String? name,
+    String? email,
+    String? age,
+    String? gender,
+    String? mobile,
+    String? empid,
+    String? address,
+    String? pincode,
+  }) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "email": email,
+      "age": age,
+      "gender": gender,
+      "mobile": mobile,
+      "empid": empid,
+      "address": address,
+      "pincode": pincode,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.addEmployeeService,
+    );
+    print(res.body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  List<EmployeeModel> _employees = [];
+
+  List<EmployeeModel> get employees => _employees;
+
+  set employees(List<EmployeeModel> value) {
+    _employees = value;
+    notifyListeners();
+  }
+
+  getEmployees() async {
+    var res = await serviceCallGet(path: services.getEmployees);
+
+    print(res.body);
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      EmployeesResponse employeesResponse =
+          EmployeesResponse.fromJson(jsonDecode(res.body));
+      if (employeesResponse.success == true) {
+        if (employeesResponse.data != null) {
+          employees = employeesResponse.data ?? [];
+        } else {
+          employees = [];
+        }
+      } else {
+        employees = [];
+      }
+    } else {
+      employees = [];
     }
   }
 }

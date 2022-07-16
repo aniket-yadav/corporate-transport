@@ -5,4 +5,6 @@ const getAdmin = "api/get_admin.php";
 const getDriver = "api/get_driver.php";
 const getRider = "api/get_employee.php";
 const addDriverService = "api/add_driver.php";
+const addEmployeeService = "api/add_employee.php";
 const getDrivers = "api/drivers.php";
+const getEmployees = "api/employees.php";
