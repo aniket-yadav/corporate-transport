@@ -1,8 +1,11 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/menu/menu_header.dart';
 import 'package:corporatetransportapp/utils/session_manager.dart';
 import 'package:corporatetransportapp/view/admin/feedbacks.dart';
+import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/login.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdminMenuScreen extends StatefulWidget {
   final VoidCallback? closeDrawer;
@@ -15,6 +18,7 @@ class AdminMenuScreen extends StatefulWidget {
 class _AdminMenuScreenState extends State<AdminMenuScreen> {
   @override
   Widget build(BuildContext context) {
+    final dataController = Provider.of<DataController>(context);
     return SafeArea(
       child: Container(
         color: const Color(0xFFF2F9FB),
@@ -38,6 +42,35 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(ChangePassword.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.security,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Change Password",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();

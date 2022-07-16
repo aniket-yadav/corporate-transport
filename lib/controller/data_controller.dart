@@ -32,7 +32,6 @@ class DataController with ChangeNotifier {
   User get user => _user;
 
   getUser() async {
-    
     user = User.fromJson(jsonDecode(await SessionManager.getUser()));
   }
 
@@ -87,9 +86,8 @@ class DataController with ChangeNotifier {
     };
 
     var res = await serviceCallPost(body: body, path: endPoint);
-    
+
     if (res.statusCode == 200) {
-      
       SessionManager.saveUser(jsonEncode(jsonDecode(res.body)['data']));
       getUser();
     }
@@ -128,7 +126,6 @@ class DataController with ChangeNotifier {
   getFeedbacks() async {
     var res = await serviceCallGet(path: services.getFeedbacks);
 
-    
     if (res.statusCode == 200) {
       FeedbackResponse feedbackResponse =
           FeedbackResponse.fromJson(jsonDecode(res.body));
@@ -172,7 +169,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addDriverService,
     );
-    
+
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
@@ -193,7 +190,6 @@ class DataController with ChangeNotifier {
   getDrivers() async {
     var res = await serviceCallGet(path: services.getDrivers);
 
-    
     if (res.statusCode == 200) {
       DriversResponse driverResponse =
           DriversResponse.fromJson(jsonDecode(res.body));
@@ -235,7 +231,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addEmployeeService,
     );
-    
+
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
@@ -256,7 +252,6 @@ class DataController with ChangeNotifier {
   getEmployees() async {
     var res = await serviceCallGet(path: services.getEmployees);
 
-    
     if (res.statusCode == 200) {
       EmployeesResponse employeesResponse =
           EmployeesResponse.fromJson(jsonDecode(res.body));
@@ -294,7 +289,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addVehicleService,
     );
-    
+
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
@@ -315,7 +310,6 @@ class DataController with ChangeNotifier {
   getVehicles() async {
     var res = await serviceCallGet(path: services.getVehicles);
 
-    
     if (res.statusCode == 200) {
       VehiclesResponse vehiclesResponse =
           VehiclesResponse.fromJson(jsonDecode(res.body));
@@ -336,18 +330,45 @@ class DataController with ChangeNotifier {
 //  profile
 
   uploadPhoto({String? image, required String role}) async {
-    
-
     Map<String, dynamic> body = {
       "role": role,
       "image": image ?? '',
       "userid": user.userid,
     };
+
     var res = await serviceCallPost(
       body: body,
       path: services.uploadProfilePhoto,
     );
-    
+
+    if (res.statusCode == 200) {
+      fetchProfile(role: role);
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+//  change password
+  changePassword({
+    required String role,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    Map<String, dynamic> body = {
+      "role": role,
+      "userid": user.userid,
+      "oldpassword": oldPassword,
+      "newpassword": newPassword,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.changePasswordService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
     if (res.statusCode == 200) {
       fetchProfile(role: role);
       Response response = Response.fromJson(jsonDecode(res.body));
