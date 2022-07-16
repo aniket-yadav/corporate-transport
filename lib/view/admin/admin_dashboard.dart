@@ -9,6 +9,7 @@ import 'package:corporatetransportapp/view/admin/vehicles_list.dart';
 import 'package:corporatetransportapp/view/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -32,6 +33,7 @@ class _AdminDashboardState extends State<AdminDashboard>
       initialPage: _pageIndex,
       keepPage: false,
     );
+    Location.instance.requestPermission();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final dataController =
           Provider.of<DataController>(context, listen: false);
