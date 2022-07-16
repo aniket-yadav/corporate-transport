@@ -174,19 +174,14 @@ class ProfilePhotoSelectionPanel extends StatelessWidget {
           await picker.pickImage(source: source, imageQuality: 50);
       if (photo != null) {
         var thumbnail = base64Encode(await photo.readAsBytes());
-        print(thumbnail.length);
-        // if (thumbnail.isNotEmpty) {
-        //   if (thumbnail.length % 4 > 0) {
-        //     thumbnail += '=' * (4 - thumbnail.length % 4);
-        //   }
 
-          if (thumbnail.isNotEmpty) {
-            var res = await userProvider.uploadPhoto(
-              image: thumbnail,
-              role: userProvider.user.role ?? '',
-            );
-            Navigator.of(GlobalVariable.navState.currentContext!).pop(res);
-          }
+        if (thumbnail.isNotEmpty) {
+          var res = await userProvider.uploadPhoto(
+            image: thumbnail,
+            role: userProvider.user.role ?? '',
+          );
+          Navigator.of(GlobalVariable.navState.currentContext!).pop(res);
+        }
         // }
       }
     } catch (_) {}

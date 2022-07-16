@@ -32,8 +32,7 @@ class DataController with ChangeNotifier {
   User get user => _user;
 
   getUser() async {
-    var userdata = await SessionManager.getUser();
-    print("userdata $userdata");
+    
     user = User.fromJson(jsonDecode(await SessionManager.getUser()));
   }
 
@@ -42,12 +41,8 @@ class DataController with ChangeNotifier {
       "username": username,
       'password': password,
     };
-    print("object");
     var res = await serviceCallPost(body: body, path: services.login);
 
-    print(res.body);
-    print(res.statusCode);
-    print(body);
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
@@ -86,18 +81,15 @@ class DataController with ChangeNotifier {
     }
 
     String id = userid ?? user.userid ?? '';
-    
 
     Map<String, dynamic> body = {
       "userid": id,
     };
 
     var res = await serviceCallPost(body: body, path: endPoint);
-    print(res.body);
-    print(res.body);
-    print(res.statusCode);
+    
     if (res.statusCode == 200) {
-      print(res.body);
+      
       SessionManager.saveUser(jsonEncode(jsonDecode(res.body)['data']));
       getUser();
     }
@@ -136,8 +128,7 @@ class DataController with ChangeNotifier {
   getFeedbacks() async {
     var res = await serviceCallGet(path: services.getFeedbacks);
 
-    print(res.body);
-    print(res.statusCode);
+    
     if (res.statusCode == 200) {
       FeedbackResponse feedbackResponse =
           FeedbackResponse.fromJson(jsonDecode(res.body));
@@ -181,7 +172,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addDriverService,
     );
-    print(res.body);
+    
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
@@ -202,8 +193,7 @@ class DataController with ChangeNotifier {
   getDrivers() async {
     var res = await serviceCallGet(path: services.getDrivers);
 
-    print(res.body);
-    print(res.statusCode);
+    
     if (res.statusCode == 200) {
       DriversResponse driverResponse =
           DriversResponse.fromJson(jsonDecode(res.body));
@@ -245,7 +235,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addEmployeeService,
     );
-    print(res.body);
+    
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
@@ -266,8 +256,7 @@ class DataController with ChangeNotifier {
   getEmployees() async {
     var res = await serviceCallGet(path: services.getEmployees);
 
-    print(res.body);
-    print(res.statusCode);
+    
     if (res.statusCode == 200) {
       EmployeesResponse employeesResponse =
           EmployeesResponse.fromJson(jsonDecode(res.body));
@@ -305,7 +294,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addVehicleService,
     );
-    print(res.body);
+    
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
@@ -326,8 +315,7 @@ class DataController with ChangeNotifier {
   getVehicles() async {
     var res = await serviceCallGet(path: services.getVehicles);
 
-    print(res.body);
-    print(res.statusCode);
+    
     if (res.statusCode == 200) {
       VehiclesResponse vehiclesResponse =
           VehiclesResponse.fromJson(jsonDecode(res.body));
@@ -348,7 +336,7 @@ class DataController with ChangeNotifier {
 //  profile
 
   uploadPhoto({String? image, required String role}) async {
-    print(image);
+    
 
     Map<String, dynamic> body = {
       "role": role,
@@ -359,7 +347,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.uploadProfilePhoto,
     );
-    print(res.body);
+    
     if (res.statusCode == 200) {
       fetchProfile(role: role);
       Response response = Response.fromJson(jsonDecode(res.body));

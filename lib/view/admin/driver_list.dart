@@ -14,7 +14,7 @@ class _DriverListState extends State<DriverList> {
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
-    print(dataController.drivers);
+    
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 15.0),

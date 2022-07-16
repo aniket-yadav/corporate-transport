@@ -22,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<DataController>(context);
-    print(userProvider.user.toJson());
+    
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
