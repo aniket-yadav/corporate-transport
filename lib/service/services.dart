@@ -10,3 +10,4 @@ const getDrivers = "api/drivers.php";
 const getEmployees = "api/employees.php";
 const addVehicleService = "api/add_vehicle.php";
 const getVehicles = "api/vehicles.php";
+const uploadProfilePhoto = "api/upload_photo.php";

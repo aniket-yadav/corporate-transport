@@ -71,8 +71,9 @@ class DataController with ChangeNotifier {
     }
   }
 
-  void fetchProfile({required String userid, required String role}) async {
+  void fetchProfile({String? userid, required String role}) async {
     String endPoint = '';
+
     if (role == Role.admin.name) {
       endPoint = services.getAdmin;
     } else if (role == Role.driver.name) {
@@ -84,8 +85,11 @@ class DataController with ChangeNotifier {
       return;
     }
 
+    String id = userid ?? user.userid ?? '';
+    
+
     Map<String, dynamic> body = {
-      "userid": userid,
+      "userid": id,
     };
 
     var res = await serviceCallPost(body: body, path: endPoint);
@@ -338,6 +342,28 @@ class DataController with ChangeNotifier {
       }
     } else {
       vehicles = [];
+    }
+  }
+
+//  profile
+
+  uploadPhoto({String? image, required String role}) async {
+    print(image);
+
+    Map<String, dynamic> body = {
+      "role": role,
+      "image": image ?? '',
+      "userid": user.userid,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.uploadProfilePhoto,
+    );
+    print(res.body);
+    if (res.statusCode == 200) {
+      fetchProfile(role: role);
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
 }

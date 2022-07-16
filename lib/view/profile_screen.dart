@@ -1,5 +1,6 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/widgets/data_tile.dart';
+import 'package:corporatetransportapp/widgets/profile_photo_selection_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/images.dart' as icons;
@@ -55,11 +56,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     alignment: Alignment.center,
                     child: Column(
                       children: [
-                        const Image(
-                          image: AssetImage(
-                            icons.profilePlaceholder,
-                          ),
-                          width: 120,
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                radius: 42.0,
+                                child: (userProvider.user.image != null &&
+                                        userProvider.user.image!.isNotEmpty)
+                                    ? Center(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(80.0),
+                                          child: Image.network(
+                                            userProvider.user.image!,
+                                            height: 80.0,
+                                            width: 80.0,
+                                          ),
+                                        ),
+                                      )
+                                    : Image.asset(
+                                        icons.profilePlaceholder,
+                                      ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: IconButton(
+                                onPressed: () async {
+                                  var res = await showModalBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) => Container(
+                                      color: Colors.transparent,
+                                      padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom,
+                                      ),
+                                      child: ProfilePhotoSelectionPanel(),
+                                    ),
+                                  );
+                                  if (res == true) {
+                                    userProvider.fetchProfile(
+                                        role: userProvider.user.role ?? '');
+                                  }
+                                },
+                                icon: const Icon(Icons.edit),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 15,
