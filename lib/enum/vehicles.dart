@@ -1,0 +1,4 @@
+enum Vehicles {
+  car,
+  bus,
+}

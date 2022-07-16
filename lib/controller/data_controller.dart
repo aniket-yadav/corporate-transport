@@ -274,4 +274,36 @@ class DataController with ChangeNotifier {
       employees = [];
     }
   }
+
+
+addVehicle({
+    String? name,
+    String? model,
+    String? type,
+    String? color,
+    String? no,
+    String? capacity,
+    
+  }) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "model": model,
+      "type": type,
+      "color": color,
+      "no": no,
+      "capacity": capacity,
+      
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.addVehicleService,
+    );
+    print(res.body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+
 }
