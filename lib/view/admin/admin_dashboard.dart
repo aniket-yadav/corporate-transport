@@ -40,6 +40,7 @@ class _AdminDashboardState extends State<AdminDashboard>
           role: dataController.user.role ?? '');
       dataController.getDrivers();
       dataController.getEmployees();
+      dataController.getVehicles();
     });
 
     super.initState();

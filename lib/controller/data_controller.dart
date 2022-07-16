@@ -5,6 +5,8 @@ import 'package:corporatetransportapp/model/employee_model.dart';
 import 'package:corporatetransportapp/model/employees_response.dart';
 import 'package:corporatetransportapp/model/feedback_model.dart';
 import 'package:corporatetransportapp/model/feedback_response.dart';
+import 'package:corporatetransportapp/model/vehicle_model.dart';
+import 'package:corporatetransportapp/model/vehicles_response.dart';
 import 'package:corporatetransportapp/service/service_call_get.dart';
 import 'package:corporatetransportapp/service/services.dart' as services;
 import 'package:corporatetransportapp/enum/roles.dart';
@@ -179,6 +181,8 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      getDrivers();
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
     }
   }
 
@@ -241,6 +245,8 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      getEmployees();
     }
   }
 
@@ -275,15 +281,13 @@ class DataController with ChangeNotifier {
     }
   }
 
-
-addVehicle({
+  addVehicle({
     String? name,
     String? model,
     String? type,
     String? color,
     String? no,
     String? capacity,
-    
   }) async {
     Map<String, dynamic> body = {
       "name": name,
@@ -292,7 +296,6 @@ addVehicle({
       "color": color,
       "no": no,
       "capacity": capacity,
-      
     };
     var res = await serviceCallPost(
       body: body,
@@ -302,8 +305,39 @@ addVehicle({
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      getVehicles();
     }
   }
 
+  List<VehicleModel> _vehicles = [];
 
+  List<VehicleModel> get vehicles => _vehicles;
+
+  set vehicles(List<VehicleModel> value) {
+    _vehicles = value;
+    notifyListeners();
+  }
+
+  getVehicles() async {
+    var res = await serviceCallGet(path: services.getVehicles);
+
+    print(res.body);
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      VehiclesResponse vehiclesResponse =
+          VehiclesResponse.fromJson(jsonDecode(res.body));
+      if (vehiclesResponse.success == true) {
+        if (vehiclesResponse.data != null) {
+          vehicles = vehiclesResponse.data ?? [];
+        } else {
+          vehicles = [];
+        }
+      } else {
+        vehicles = [];
+      }
+    } else {
+      vehicles = [];
+    }
+  }
 }

@@ -1,5 +1,7 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/view/admin/add_vehicle.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VehiclesList extends StatefulWidget {
   const VehiclesList({Key? key}) : super(key: key);
@@ -11,11 +13,12 @@ class VehiclesList extends StatefulWidget {
 class _VehiclesListState extends State<VehiclesList> {
   @override
   Widget build(BuildContext context) {
+    final dataController = Provider.of<DataController>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 15.0),
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: dataController.vehicles.length,
           itemBuilder: ((context, index) {
             return Card(
               margin: const EdgeInsets.symmetric(
@@ -46,16 +49,16 @@ class _VehiclesListState extends State<VehiclesList> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "John Doe",
-                                style: TextStyle(
+                              Text(
+                                dataController.vehicles[index].name ?? '',
+                                style: const TextStyle(
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const Text(
-                                "9298234889",
-                                style: TextStyle(
+                              Text(
+                                dataController.vehicles[index].model ?? '',
+                                style: const TextStyle(
                                   fontSize: 13.0,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -63,14 +66,15 @@ class _VehiclesListState extends State<VehiclesList> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
-                                children: const [
-                                  Icon(
+                                children: [
+                                  const Icon(
                                     Icons.numbers,
                                     size: 15,
                                   ),
                                   Text(
-                                    "MH04RG3422",
-                                    style: TextStyle(
+                                    dataController.vehicles[index].capacity ??
+                                        '',
+                                    style: const TextStyle(
                                       fontSize: 13.0,
                                       fontWeight: FontWeight.normal,
                                     ),

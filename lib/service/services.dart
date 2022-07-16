@@ -9,3 +9,4 @@ const addEmployeeService = "api/add_employee.php";
 const getDrivers = "api/drivers.php";
 const getEmployees = "api/employees.php";
 const addVehicleService = "api/add_vehicle.php";
+const getVehicles = "api/vehicles.php";
