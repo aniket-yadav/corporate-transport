@@ -31,13 +31,14 @@ class _DriverMapState extends State<DriverMap> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         getUpdatedLocation();
       });
     });
   }
 
   getUpdatedLocation() async {
+    dataController?.getVehicle();
     controller = await _controller.future;
     controller?.moveCamera(
       CameraUpdate.newCameraPosition(

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 class DataTile extends StatelessWidget {
   final String label;
-  final IconData icon;
-  const DataTile({Key? key, required this.icon, required this.label})
-      : super(key: key);
+  final IconData? icon;
+  const DataTile({Key? key, this.icon, required this.label}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +27,11 @@ class DataTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(
-            icon,
-            color: const Color(0xFF107189),
-          ),
+          if (icon != null)
+            Icon(
+              icon,
+              color: const Color(0xFF107189),
+            ),
           const SizedBox(
             width: 15.0,
           ),
