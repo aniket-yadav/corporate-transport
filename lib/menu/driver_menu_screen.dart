@@ -98,7 +98,7 @@ class _DriverMenuScreenState extends State<DriverMenuScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap:  () async {
+                    onTap:  () async { 
                       SessionManager.signOut();
                       if (!(await SessionManager.hasUser())) {
                         Navigator.of(context).pushNamedAndRemoveUntil(

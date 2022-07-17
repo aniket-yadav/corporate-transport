@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (role == Role.admin.name) {
         Navigator.of(GlobalVariable.navState.currentContext!)
             .pushReplacementNamed(AdminMainScreen.routeName);
-      } else if (role == Role.rider.name) {
+      } else if (role == Role.employee.name) {
         Navigator.of(GlobalVariable.navState.currentContext!)
             .pushReplacementNamed(EmployeeMainScreen.routeName);
       } else if (role == Role.driver.name) {

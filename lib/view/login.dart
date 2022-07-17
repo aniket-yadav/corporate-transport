@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/view/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -142,6 +143,23 @@ class _LoginState extends State<Login> {
                                     username: username, password: password);
                               },
                               child: const Text("Login"),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(ForgotPassword.routeName);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(top: 20),
+                              child: const Text(
+                                "Forgot password",
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                ),
+                              ),
                             ),
                           ),
                         ],

@@ -17,3 +17,4 @@ const updateLocationService = "api/update_location.php";
 const getVehicle = "api/get_vehicle.php";
 const myPasssengers = "api/my_passengers.php";
 const updateRidingStatus = "api/update_riding.php";
+const resetPassword = "api/reset_password.php";

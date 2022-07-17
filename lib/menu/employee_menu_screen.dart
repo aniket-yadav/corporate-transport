@@ -1,7 +1,9 @@
 import 'package:corporatetransportapp/menu/menu_header.dart';
+import 'package:corporatetransportapp/utils/session_manager.dart';
 import 'package:corporatetransportapp/view/add_feedback.dart';
 import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/employee/chat.dart';
+import 'package:corporatetransportapp/view/login.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeMenuScreen extends StatefulWidget {
@@ -154,8 +156,12 @@ class _EmployeeMenuScreenState extends State<EmployeeMenuScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      widget.closeDrawer!();
+                    onTap: () async {
+                      SessionManager.signOut();
+                      if (!(await SessionManager.hasUser())) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            Login.routeName, (Route<dynamic> route) => false);
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

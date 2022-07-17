@@ -42,7 +42,8 @@ class DataController with ChangeNotifier {
       'password': password,
     };
     var res = await serviceCallPost(body: body, path: services.login);
-
+    print(res.body);
+    print(res.statusCode);
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
@@ -56,10 +57,13 @@ class DataController with ChangeNotifier {
         } else if (role == Role.driver.name) {
           Navigator.of(GlobalVariable.navState.currentContext!)
               .pushReplacementNamed(DriverMainScreen.routeName);
-        } else if (role == Role.rider.name) {
+        } else if (role == Role.employee.name) {
           Navigator.of(GlobalVariable.navState.currentContext!)
               .pushReplacementNamed(EmployeeMainScreen.routeName);
         }
+        snackBar(
+            response.message ?? '', GlobalVariable.navState.currentContext!);
+      } else {
         snackBar(
             response.message ?? '', GlobalVariable.navState.currentContext!);
       }
@@ -73,7 +77,7 @@ class DataController with ChangeNotifier {
       endPoint = services.getAdmin;
     } else if (role == Role.driver.name) {
       endPoint = services.getDriver;
-    } else if (role == Role.rider.name) {
+    } else if (role == Role.employee.name) {
       endPoint = services.getRider;
     }
     if (endPoint.isEmpty) {
@@ -474,7 +478,7 @@ class DataController with ChangeNotifier {
     print(res.statusCode);
     print(res.body);
 
-   if (res.statusCode == 200) {
+    if (res.statusCode == 200) {
       EmployeesResponse employeesResponse =
           EmployeesResponse.fromJson(jsonDecode(res.body));
       if (employeesResponse.success == true) {
@@ -491,12 +495,10 @@ class DataController with ChangeNotifier {
     }
   }
 
-
-void updateRidingStatus({required String userid, String? status}) async {
+  void updateRidingStatus({required String userid, String? status}) async {
     Map<String, dynamic> body = {
       "userid": userid,
       "status": status,
-      
     };
 
     var res = await serviceCallPost(
@@ -512,4 +514,26 @@ void updateRidingStatus({required String userid, String? status}) async {
     }
   }
 
+  void resetPassword({required String role, required String email}) async {
+    Map<String, dynamic> body = {
+      "role": role,
+      "email": email,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.resetPassword,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      if (response.success == true) {
+        Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      }
+    }
+  }
 }

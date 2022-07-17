@@ -8,6 +8,7 @@ import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/driver/driver_main_screen.dart';
 import 'package:corporatetransportapp/view/employee/chat.dart';
 import 'package:corporatetransportapp/view/employee/employee_main_screen.dart';
+import 'package:corporatetransportapp/view/forgot_password.dart';
 import 'package:corporatetransportapp/view/login.dart';
 import 'package:corporatetransportapp/view/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,4 +26,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   ChangePassword.routeName: (_) => const ChangePassword(),
   Chat.routeName: (_) => const Chat(),
   Login.routeName: (_) => const Login(),
+  ForgotPassword.routeName: (_) => const ForgotPassword(),
 };
