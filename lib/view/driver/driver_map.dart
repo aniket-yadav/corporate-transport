@@ -18,7 +18,7 @@ class _DriverMapState extends State<DriverMap> {
   final Completer<GoogleMapController> _controller = Completer();
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(
-      49.1879314,
+      19.1279314,
       72.948004,
     ),
     zoom: 14.4746,
@@ -36,7 +36,7 @@ class _DriverMapState extends State<DriverMap> {
       });
     });
   }
-
+ 
   getUpdatedLocation() async {
     dataController?.getVehicle();
     controller = await _controller.future;

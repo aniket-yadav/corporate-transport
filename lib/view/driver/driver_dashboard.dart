@@ -40,7 +40,7 @@ class _DriverDashboardState extends State<DriverDashboard>
       locationUpdate();
     });
     super.initState();
-  }
+  } 
 
   void locationUpdate() async {
     final dataController = Provider.of<DataController>(context, listen: false);

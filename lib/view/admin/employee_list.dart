@@ -1,5 +1,6 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/view/admin/add_employee.dart';
+import 'package:corporatetransportapp/widgets/option_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,73 +21,97 @@ class _EmployeeListState extends State<EmployeeList> {
         child: ListView.builder(
           itemCount: dataController.employees.length,
           itemBuilder: ((context, index) {
-            return Card(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 15.0,
-                vertical: 8.0,
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
+            return InkWell(
+              onTap: () async {
+                var res = await showOptionModal(
+                    context,
+                    dataController.employees[index].vehicleid,
+                    dataController.vehicles.map((e) => e.platno).toList());
+                if (res != null) {
+                  dataController.updateBus(
+                    bus: dataController.vehicles
+                            .firstWhere((element) => element.platno == res)
+                            .vehicleid ??
+                        '',
+                    userId: dataController.employees[index].employeeid ?? '',
+                    role: "employee",
+                  );
+                }
+              },
+              child: Card(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 15.0,
-                  vertical: 15.0,
+                  vertical: 8.0,
                 ),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: constraints.maxWidth * 0.3,
-                          child: const Icon(
-                            Icons.account_circle,
-                            size: 70,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0,
+                    vertical: 15.0,
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: constraints.maxWidth * 0.3,
+                            child: const Icon(
+                              Icons.account_circle,
+                              size: 70,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: constraints.maxWidth * 0.7,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                dataController.employees[index].name ?? '',
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                dataController.employees[index].mobile ?? '',
-                                style: const TextStyle(
-                                  fontSize: 13.0,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  const Icon(
-                                    Icons.numbers,
-                                    size: 15,
+                          SizedBox(
+                            width: constraints.maxWidth * 0.7,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  dataController.employees[index].name ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  Text(
-                                    dataController.employees[index].vehicleid ??
-                                        '',
-                                    style: const TextStyle(
-                                      fontSize: 13.0,
-                                      fontWeight: FontWeight.normal,
+                                ),
+                                Text(
+                                  dataController.employees[index].mobile ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const Icon(
+                                      Icons.numbers,
+                                      size: 15,
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  },
+                                    Text(
+                                      dataController.vehicles
+                                              .firstWhere((element) =>
+                                                  element.vehicleid ==
+                                                  dataController
+                                                      .employees[index]
+                                                      .vehicleid)
+                                              .platno ??
+                                          '',
+                                      style: const TextStyle(
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             );

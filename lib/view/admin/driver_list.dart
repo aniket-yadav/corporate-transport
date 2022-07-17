@@ -71,7 +71,7 @@ class _DriverListState extends State<DriverList> {
                                 Text(
                                   dataController.drivers[index].name ?? '',
                                   style: const TextStyle(
-                                    fontSize: 15.0,
+                                     fontSize: 15.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

@@ -400,6 +400,7 @@ class DataController with ChangeNotifier {
 
     if (res.statusCode == 200) {
       getDrivers();
+      getEmployees();
       getVehicles();
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
