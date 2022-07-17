@@ -41,7 +41,7 @@ class User {
       name: json?['name'],
       pincode: json?['pincode'],
       aadharno: json?['aadharno'],
-      userid: json?['adminid'] ?? json?['driverid'] ?? json?['driverid'],
+      userid: json?['adminid'] ?? json?['driverid'] ?? json?['employeeid'],
       age: json?['age'],
       gender: json?['gender'],
       image: json?['image'],

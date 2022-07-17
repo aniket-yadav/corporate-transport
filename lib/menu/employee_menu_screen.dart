@@ -1,3 +1,4 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/menu/menu_header.dart';
 import 'package:corporatetransportapp/utils/session_manager.dart';
 import 'package:corporatetransportapp/view/add_feedback.dart';
@@ -5,6 +6,8 @@ import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/employee/chat.dart';
 import 'package:corporatetransportapp/view/login.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class EmployeeMenuScreen extends StatefulWidget {
   final VoidCallback? closeDrawer;
@@ -128,8 +131,18 @@ class _EmployeeMenuScreenState extends State<EmployeeMenuScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       widget.closeDrawer!();
+                      final dataController =
+                          Provider.of<DataController>(context, listen: false);
+                      var res = await Location.instance.hasPermission();
+                      if (res == PermissionStatus.granted) {
+                        var loc = await Location.instance.getLocation();
+
+                        dataController.callSOS(
+                            lat: "${loc.latitude ?? ''}",
+                            log: "${loc.longitude ?? ''}");
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

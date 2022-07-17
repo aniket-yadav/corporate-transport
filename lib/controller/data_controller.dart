@@ -537,4 +537,30 @@ class DataController with ChangeNotifier {
       }
     }
   }
+
+
+  void callSOS({required String lat,required String log}) async {
+
+
+    Map<String, dynamic> body = {
+      "user": user.name ?? '',
+      "userid": user.userid ?? '',
+      'lat':lat,
+      'log':log,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.sosCallService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      
+    }
+  }
 }
