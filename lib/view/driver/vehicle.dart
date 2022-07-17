@@ -57,7 +57,7 @@ class _VehicleState extends State<Vehicle> {
             ),
             DataTile(
               label: "Model:  ${dataController.vehicle?.model ?? 'N/A'}",
-            ),
+            ), 
             DataTile(
               label: "Color:  ${dataController.vehicle?.color ?? 'N/A'}",
             ),
