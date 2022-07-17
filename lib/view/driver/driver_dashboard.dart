@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/view/driver/driver_map.dart';
 import 'package:corporatetransportapp/view/driver/riders.dart';
 import 'package:corporatetransportapp/view/driver/vehicle.dart';
@@ -8,6 +10,7 @@ import 'package:corporatetransportapp/view/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class DriverDashboard extends StatefulWidget {
   final VoidCallback? openDrawer;
@@ -23,16 +26,36 @@ class _DriverDashboardState extends State<DriverDashboard>
   late PageController _pageController;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   double angle = pi;
-
+  Timer? timer;
+  Location? location;
   @override
   void initState() {
+    location = Location.instance;
     _pageController = PageController(
       initialPage: _pageIndex,
       keepPage: false,
     );
-    Location.instance.requestPermission();
-
+    location?.requestPermission();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      locationUpdate();
+    });
     super.initState();
+  }
+
+  void locationUpdate() async {
+    final dataController = Provider.of<DataController>(context, listen: false);
+    var res = await location?.hasPermission();
+    if (res == PermissionStatus.granted) {
+      location?.onLocationChanged.listen((LocationData currentLocation) {
+        dataController.updateLocation(
+            latitude: currentLocation.latitude.toString(),
+            longitude: currentLocation.longitude.toString());
+        print(currentLocation);
+      });
+    } else {
+      location?.requestPermission();
+    }
+    print(res);
   }
 
   double? _getIndicatorPosition(int index) {
@@ -147,7 +170,6 @@ class _DriverDashboardState extends State<DriverDashboard>
   void onTabTapped(int index) async {
     _pageController.jumpToPage(
       index,
-      
     );
   }
 
@@ -159,6 +181,9 @@ class _DriverDashboardState extends State<DriverDashboard>
   void dispose() {
     _pageController.dispose();
     WidgetsBinding.instance.removeObserver(this);
+    if (timer != null && timer!.isActive) {
+      timer!.cancel();
+    }
 
     super.dispose();
   }

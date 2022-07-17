@@ -12,6 +12,7 @@ class User {
   String? gender;
   String? age;
   String? aadharno;
+  String? vehicleid;
   User({
     this.name,
     this.mobile,
@@ -26,6 +27,7 @@ class User {
     this.age,
     this.gender,
     this.userid,
+    this.vehicleid,
   });
 
   factory User.fromJson(Map<String, dynamic>? json) {
@@ -43,6 +45,7 @@ class User {
       age: json?['age'],
       gender: json?['gender'],
       image: json?['image'],
+      vehicleid: json?['vehicleid'],
     );
   }
 
@@ -63,6 +66,7 @@ class User {
       'mobile': mobile,
       'name': name,
       'image': image,
+      'vehicleid': vehicleid,
     };
     temp.removeWhere((key, value) => value == null);
 

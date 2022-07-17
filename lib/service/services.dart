@@ -13,3 +13,5 @@ const getVehicles = "api/vehicles.php";
 const uploadProfilePhoto = "api/upload_photo.php";
 const changePasswordService = "api/change_password.php";
 const updateBusService = "api/update_bus.php";
+const updateLocationService = "api/update_location.php";
+const getVehicle = "api/get_vehicle.php";

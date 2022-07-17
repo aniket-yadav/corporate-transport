@@ -6,6 +6,7 @@ import 'package:corporatetransportapp/model/employees_response.dart';
 import 'package:corporatetransportapp/model/feedback_model.dart';
 import 'package:corporatetransportapp/model/feedback_response.dart';
 import 'package:corporatetransportapp/model/vehicle_model.dart';
+import 'package:corporatetransportapp/model/vehicle_response.dart';
 import 'package:corporatetransportapp/model/vehicles_response.dart';
 import 'package:corporatetransportapp/service/service_call_get.dart';
 import 'package:corporatetransportapp/service/services.dart' as services;
@@ -398,6 +399,54 @@ class DataController with ChangeNotifier {
       getVehicles();
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  void updateLocation({required String latitude, String? longitude}) async {
+    Map<String, dynamic> body = {
+      "vehicleId": user.vehicleid,
+      "longitude": longitude,
+      "latitude": latitude,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateLocationService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      // getVehicle();
+    }
+  }
+
+  VehicleModel? _vehicle;
+
+  VehicleModel? get vehicle => _vehicle;
+
+  set vehicle(VehicleModel? value) {
+    _vehicle = value;
+    notifyListeners();
+  }
+
+  void getVehicle() async {
+    Map<String, dynamic> body = {
+      "vehicleid": user.vehicleid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.getVehicle,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      VehicleResponse response = VehicleResponse.fromJson(jsonDecode(res.body));
+      vehicle = response.data;
     }
   }
 }
