@@ -45,6 +45,7 @@ dependencies:
   jiffy: ^5.0.0
   image_picker: ^0.8.5+3
   location: ^4.4.0
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

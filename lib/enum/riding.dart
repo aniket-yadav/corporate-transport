@@ -1,0 +1,4 @@
+enum Riding{
+  yes,
+  no,
+}

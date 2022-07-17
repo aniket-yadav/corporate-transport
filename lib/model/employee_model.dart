@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 class EmployeeModel {
   String? employeeid;
   String? username;
@@ -13,9 +10,10 @@ class EmployeeModel {
   String? empid;
   String? address;
   String? pincode;
-  Uint8List? image;
+  String? image;
   String? vehicleid;
   String? name;
+  String? riding;
   EmployeeModel({
     this.name,
     this.mobile,
@@ -31,6 +29,7 @@ class EmployeeModel {
     this.vehicleid,
     this.empid,
     this.employeeid,
+    this.riding,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic>? json) {
@@ -48,9 +47,10 @@ class EmployeeModel {
         username: json?['username'],
         vehicleid: json?['vehicleid'],
         gender: json?['gender'],
-        image: (json?['image'] != null && json!['image'].toString().isNotEmpty)
-            ? base64Decode(json['image'])
-            : null);
+        image: json?['image'],
+        riding: json?['riding'],
+        );
+        
   }
 
   Map<String, dynamic> toJson() {
@@ -68,7 +68,8 @@ class EmployeeModel {
       'username': username,
       'vehicleid': vehicleid,
       'gender': gender,
-      'image': image != null ? base64Encode(image!) : null,
+      'image': image,
+      'riding': riding,
     };
     temp.removeWhere((key, value) => value == null);
 

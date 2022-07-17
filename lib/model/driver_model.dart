@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:typed_data';
+
 
 class DriverModel {
   String? driverid;
@@ -14,7 +14,7 @@ class DriverModel {
   String? address;
   String? pincode;
   String? aadharno;
-  Uint8List? image;
+  String? image;
   String? vehicleid;
   String? name;
   DriverModel({
@@ -51,9 +51,7 @@ class DriverModel {
         vehicleid: json?['vehicleid'],
         driverid: json?['driverid'],
         gender: json?['gender'],
-        image: (json?['image'] != null && json!['image'].toString().isNotEmpty)
-            ? base64Decode(json['image'])
-            : null);
+        image: json?['image'] );
   }
 
   Map<String, dynamic> toJson() {
@@ -72,7 +70,7 @@ class DriverModel {
       'vehicleid': vehicleid,
       'driverid': driverid,
       'gender': gender,
-      'image': image != null ? base64Encode(image!) : null,
+      'image': image ,
     };
     temp.removeWhere((key, value) => value == null);
 

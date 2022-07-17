@@ -449,4 +449,67 @@ class DataController with ChangeNotifier {
       vehicle = response.data;
     }
   }
+
+// my passengers
+
+  List<EmployeeModel> _myPassengers = [];
+
+  List<EmployeeModel> get myPassengers => _myPassengers;
+
+  set myPassengers(List<EmployeeModel> value) {
+    _myPassengers = value;
+    notifyListeners();
+  }
+
+  void getMyPaasengers() async {
+    Map<String, dynamic> body = {
+      "vehicleid": user.vehicleid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.myPasssengers,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+   if (res.statusCode == 200) {
+      EmployeesResponse employeesResponse =
+          EmployeesResponse.fromJson(jsonDecode(res.body));
+      if (employeesResponse.success == true) {
+        if (employeesResponse.data != null) {
+          myPassengers = employeesResponse.data ?? [];
+        } else {
+          myPassengers = [];
+        }
+      } else {
+        myPassengers = [];
+      }
+    } else {
+      myPassengers = [];
+    }
+  }
+
+
+void updateRidingStatus({required String userid, String? status}) async {
+    Map<String, dynamic> body = {
+      "userid": userid,
+      "status": status,
+      
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateRidingStatus,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      getMyPaasengers();
+    }
+  }
+
 }
