@@ -1,8 +1,11 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+
+import 'package:provider/provider.dart';
 
 class EmployeeMap extends StatefulWidget {
   const EmployeeMap({Key? key}) : super(key: key);
@@ -15,23 +18,45 @@ class _EmployeeMapState extends State<EmployeeMap> {
   final Completer<GoogleMapController> _controller = Completer();
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(
-      37.42796133580664,
-      -122.085749655962,
+      19.1279314,
+      72.948004,
     ),
     zoom: 14.4746,
   );
 
-  static const CameraPosition _kLake = CameraPosition(
-    bearing: 192.8334901395799,
-    target: LatLng(
-      37.43296265331129,
-      -122.08832357078792,
-    ),
-    tilt: 59.440717697143555,
-    zoom: 19.151926040649414,
-  );
+  Timer? timer;
+  GoogleMapController? controller;
+  DataController? dataController;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        getUpdatedLocation();
+      });
+    });
+  }
+
+  getUpdatedLocation() async {
+    dataController?.getVehicle();
+    controller = await _controller.future;
+    controller?.moveCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            double.parse(dataController?.vehicle?.latitude ?? "0"),
+            double.parse(dataController?.vehicle?.longitude ?? '0'),
+          ),
+          zoom: 18.0,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    dataController = Provider.of<DataController>(context);
+
     return Scaffold(
       body: GoogleMap(
         myLocationButtonEnabled: true,
@@ -43,7 +68,23 @@ class _EmployeeMapState extends State<EmployeeMap> {
         },
         myLocationEnabled: true,
         mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
+        markers: {
+          Marker(
+              markerId: MarkerId(dataController?.vehicle?.vehicleid ?? ''),
+              position: LatLng(
+                double.parse(dataController?.vehicle?.latitude ?? "0"),
+                double.parse(dataController?.vehicle?.longitude ?? '0'),
+              ),
+              infoWindow:
+                  InfoWindow(title: dataController?.vehicle?.platno ?? '')),
+        },
+        initialCameraPosition: dataController?.vehicle != null
+            ? CameraPosition(
+                target: LatLng(
+                double.parse(dataController?.vehicle?.latitude ?? "0"),
+                double.parse(dataController?.vehicle?.longitude ?? '0'),
+              ))
+            : _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

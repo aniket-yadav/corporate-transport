@@ -64,7 +64,7 @@ class _DriverMapState extends State<DriverMap> {
   @override
   Widget build(BuildContext context) {
     dataController = Provider.of<DataController>(context);
-
+ 
     return Scaffold(
       body: GoogleMap(
         myLocationButtonEnabled: true,
