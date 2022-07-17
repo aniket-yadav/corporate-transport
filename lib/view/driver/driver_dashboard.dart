@@ -7,6 +7,7 @@ import 'package:corporatetransportapp/view/driver/vehicle.dart';
 import 'package:corporatetransportapp/view/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class DriverDashboard extends StatefulWidget {
   final VoidCallback? openDrawer;
@@ -29,6 +30,7 @@ class _DriverDashboardState extends State<DriverDashboard>
       initialPage: _pageIndex,
       keepPage: false,
     );
+    Location.instance.requestPermission();
 
     super.initState();
   }
@@ -143,10 +145,9 @@ class _DriverDashboardState extends State<DriverDashboard>
   }
 
   void onTabTapped(int index) async {
-    _pageController.animateToPage(
+    _pageController.jumpToPage(
       index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
+      
     );
   }
 

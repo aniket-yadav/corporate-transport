@@ -5,6 +5,7 @@ import 'package:corporatetransportapp/view/employee/employee_map.dart';
 import 'package:corporatetransportapp/view/employee/my_ride.dart';
 import 'package:corporatetransportapp/view/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class EmployeeDashboard extends StatefulWidget {
   final VoidCallback? openDrawer;
@@ -23,6 +24,8 @@ class _EmployeeDashboardState extends State<EmployeeDashboard>
 
   @override
   void initState() {
+        Location.instance.requestPermission();
+
     _pageController = PageController(
       initialPage: _pageIndex,
       keepPage: false,
@@ -136,10 +139,9 @@ class _EmployeeDashboardState extends State<EmployeeDashboard>
   }
 
   void onTabTapped(int index) async {
-    _pageController.animateToPage(
+    _pageController.jumpToPage(
       index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
+      
     );
   }
 
