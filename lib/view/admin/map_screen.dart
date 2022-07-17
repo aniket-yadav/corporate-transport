@@ -50,4 +50,17 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    if (_controller.isCompleted) {
+      disposeController();
+    }
+    super.dispose();
+  }
+
+  disposeController() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.dispose();
+  }
 }

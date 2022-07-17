@@ -375,4 +375,27 @@ class DataController with ChangeNotifier {
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
+
+  void updateBus({String? bus, required String userId, String? role}) async {
+    Map<String, dynamic> body = {
+      "user": role,
+      "userid": userId,
+      "bus": bus,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateBusService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      getDrivers();
+      getVehicles();
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 }

@@ -163,10 +163,8 @@ class _AdminDashboardState extends State<AdminDashboard>
   }
 
   void onTabTapped(int index) async {
-    _pageController.animateToPage(
+    _pageController.jumpToPage(
       index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
     );
   }
 
