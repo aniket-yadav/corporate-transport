@@ -2,6 +2,12 @@ import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
+import 'dart:io';
+import 'package:intl/intl.dart';
 
 class Feedbacks extends StatefulWidget {
   const Feedbacks({Key? key}) : super(key: key);
@@ -29,6 +35,18 @@ class _FeedbacksState extends State<Feedbacks> {
         title: const Text(
           "Feedbacks",
         ),
+        actions: [
+          if (dataController.feedBacks.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                createExcel();
+              },
+              icon: const Icon(
+                Icons.download,
+                color: Colors.white,
+              ),
+            ),
+        ],
       ),
       body: ListView.builder(
           itemCount: dataController.feedBacks.length,
@@ -102,5 +120,61 @@ class _FeedbacksState extends State<Feedbacks> {
             );
           }),
     );
+  }
+
+  Future<Directory?> _getDownloadDirectory() async {
+    if (Platform.isAndroid) {
+      return Directory('/storage/emulated/0/Download');
+    }
+    // iOS directory visible to user
+    return await getApplicationDocumentsDirectory();
+  }
+
+  Future<bool> _requestPermissions() async {
+    var permissionStorage = await Permission.storage.status.isGranted;
+    if (permissionStorage) {
+      return true;
+    }
+    var status = await Permission.storage.request();
+    return status == PermissionStatus.granted;
+  }
+
+  Future<void> createExcel() async {
+    final feedbacks =
+        Provider.of<DataController>(context, listen: false).feedBacks;
+    final isPermissionStatusGranted = await _requestPermissions();
+    final dir = await _getDownloadDirectory();
+    if (isPermissionStatusGranted) {
+      final excel.Workbook workbook = excel.Workbook();
+      final excel.Worksheet sheet = workbook.worksheets[0];
+      sheet.getRangeByName("A1").setText("Feedback Id");
+      sheet.getRangeByName("B1").setText("Comment");
+      sheet.getRangeByName("C1").setText("Author");
+      sheet.getRangeByName("D1").setText("Rate");
+      sheet.getRangeByName("E1").setText("Email");
+      sheet.getRangeByName("F1").setText("Date");
+      int i = 2;
+      for (var element in feedbacks) {
+        sheet.getRangeByName("A$i").setText(element.feedbackid);
+        sheet.getRangeByName("B$i").setText(element.comment);
+        sheet.getRangeByName("C$i").setText(element.author);
+        sheet.getRangeByName("D$i").setText(element.rate);
+        sheet.getRangeByName("E$i").setText(element.email);
+        sheet.getRangeByName("F$i").setText(element.date);
+
+        i += 1;
+      }
+
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+
+      // final String path = (await getApplicationSupportDirectory()).path;
+      final String path = dir?.path ?? "/storage/emulated/0/Download";
+      final String fileName =
+          "$path/${DateFormat("ddMMyyyyhhmm").format(DateTime.now())}.xlsx";
+      final File file = File(fileName);
+      await file.writeAsBytes(bytes, flush: true);
+      OpenFile.open(fileName);
+    }
   }
 }
