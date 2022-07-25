@@ -31,77 +31,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           Container(
             margin: const EdgeInsets.symmetric(
               horizontal: 15.0,
-            ),
-            child: const Text("Select role"),
-          ),
-          Row(
-            children: [
-              Row(
-                children: [
-                  Radio(
-                      activeColor: const Color(0xFF107189),
-                      value: Role.admin,
-                      groupValue: _selectedRole,
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedRole = Role.admin;
-                        });
-                      }),
-                  const Text(
-                    "Admin",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                      activeColor: const Color(0xFF107189),
-                      value: Role.driver,
-                      groupValue: _selectedRole,
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedRole = Role.driver;
-                        });
-                      }),
-                  const Text(
-                    "Driver",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                      activeColor: const Color(0xFF107189),
-                      value: Role.employee,
-                      groupValue: _selectedRole,
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedRole = Role.employee;
-                        });
-                      }),
-                  const Text(
-                    "Employee",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 15.0,
               vertical: 15.0,
             ),
             child: TextField(
               controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 filled: true,
                 hintText: "Enter your registered email",
@@ -121,13 +55,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               onPressed: () {
                 FocusScope.of(context).requestFocus(FocusNode());
                 final email = emailController.text.trim();
-                if (email.isEmpty || _selectedRole == null) {
+                if (email.isEmpty) {
                   snackBar("Please select role/enter email", context);
                   return;
                 }
 
-                dataController.resetPassword(
-                    role: _selectedRole?.name ?? '', email: email);
+                dataController.resetPassword(email: email);
               },
               child: const Text("Reset Password"),
             ),

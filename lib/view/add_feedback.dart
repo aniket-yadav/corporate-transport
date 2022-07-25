@@ -1,6 +1,7 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddFeedback extends StatefulWidget {
@@ -38,6 +39,11 @@ class _AddFeedbackState extends State<AddFeedback> {
                 ),
                 minLines: 4,
                 maxLines: null,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z0-9. ]"),
+                  ),
+                ],
               ),
             ),
             Container(

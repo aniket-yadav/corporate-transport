@@ -515,9 +515,8 @@ class DataController with ChangeNotifier {
     }
   }
 
-  void resetPassword({required String role, required String email}) async {
+  void resetPassword({required String email}) async {
     Map<String, dynamic> body = {
-      "role": role,
       "email": email,
     };
 
@@ -538,15 +537,12 @@ class DataController with ChangeNotifier {
     }
   }
 
-
-  void callSOS({required String lat,required String log}) async {
-
-
+  void callSOS({required String lat, required String log}) async {
     Map<String, dynamic> body = {
       "user": user.name ?? '',
       "userid": user.userid ?? '',
-      'lat':lat,
-      'log':log,
+      'lat': lat,
+      'log': log,
     };
 
     var res = await serviceCallPost(
@@ -560,7 +556,6 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
-      
     }
   }
 }

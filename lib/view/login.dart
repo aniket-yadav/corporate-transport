@@ -98,6 +98,7 @@ class _LoginState extends State<Login> {
                                 ),
                                 hintText: "username",
                               ),
+                              
                             ),
                           ),
                           Container(
@@ -122,6 +123,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               obscureText: _obscureText,
+                              keyboardType: TextInputType.visiblePassword,
                             ),
                           ),
                           Container(

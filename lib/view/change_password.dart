@@ -73,6 +73,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
+                keyboardType: TextInputType.visiblePassword,
                 obscureText: _obscureTextCurrent,
               ),
             ),
@@ -96,6 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                 ),
+                keyboardType: TextInputType.visiblePassword,
                 obscureText: _obscureTextNew,
               ),
             ),
@@ -122,6 +124,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                 ),
                 obscureText: _obscureTextConfirm,
+                keyboardType: TextInputType.visiblePassword,
               ),
             ),
             Container(

@@ -3,6 +3,7 @@ import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:corporatetransportapp/widgets/gender_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/constants.dart' as constants;
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddEmployee extends StatefulWidget {
@@ -99,6 +100,11 @@ class _AddEmployeeState extends State<AddEmployee> {
                   decoration: const InputDecoration(
                     filled: true,
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[a-zA-Z. ]"),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -120,9 +126,11 @@ class _AddEmployeeState extends State<AddEmployee> {
                 ),
                 child: TextField(
                   controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     filled: true,
                   ),
+                  
                 ),
               ),
               Container(
@@ -214,9 +222,15 @@ class _AddEmployeeState extends State<AddEmployee> {
                 ),
                 child: TextField(
                   controller: mobileController,
+                  keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     filled: true,
+                    counterText: '',
                   ),
+                  maxLength: 10,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                 ),
               ),
               Container(
@@ -241,6 +255,11 @@ class _AddEmployeeState extends State<AddEmployee> {
                   decoration: const InputDecoration(
                     filled: true,
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[a-zA-Z0-9. ]"),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -266,6 +285,11 @@ class _AddEmployeeState extends State<AddEmployee> {
                     filled: true,
                   ),
                   maxLines: null,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[a-zA-Z0-9. ]"),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -287,11 +311,15 @@ class _AddEmployeeState extends State<AddEmployee> {
                 ),
                 child: TextField(
                   controller: pincodeController,
+                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     filled: true,
                     counterText: '',
                   ),
                   maxLength: 6,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                 ),
               ),
               const SizedBox(

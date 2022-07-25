@@ -2,6 +2,7 @@ import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/enum/vehicles.dart';
 import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddVehicle extends StatefulWidget {
@@ -87,6 +88,11 @@ class _AddVehicleState extends State<AddVehicle> {
                 decoration: const InputDecoration(
                   filled: true,
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z. ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -100,6 +106,7 @@ class _AddVehicleState extends State<AddVehicle> {
                   fontSize: 14.0,
                 ),
               ),
+              
             ),
             Container(
               margin: const EdgeInsets.symmetric(
@@ -111,6 +118,11 @@ class _AddVehicleState extends State<AddVehicle> {
                 decoration: const InputDecoration(
                   filled: true,
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z0-9. ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -197,6 +209,11 @@ class _AddVehicleState extends State<AddVehicle> {
                 decoration: const InputDecoration(
                   filled: true,
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -220,7 +237,14 @@ class _AddVehicleState extends State<AddVehicle> {
                 controller: noController,
                 decoration: const InputDecoration(
                   filled: true,
+                  counterText: '',
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z0-9]"),
+                  ),
+                ],
+                maxLength: 10,
               ),
             ),
             Container(

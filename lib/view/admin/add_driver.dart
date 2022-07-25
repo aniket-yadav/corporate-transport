@@ -3,6 +3,7 @@ import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:corporatetransportapp/widgets/gender_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/constants.dart' as constants;
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddDriver extends StatefulWidget {
@@ -99,6 +100,11 @@ class _AddDriverState extends State<AddDriver> {
                   decoration: const InputDecoration(
                     filled: true,
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[a-zA-Z. ]"),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -120,9 +126,11 @@ class _AddDriverState extends State<AddDriver> {
                 ),
                 child: TextField(
                   controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     filled: true,
                   ),
+                  
                 ),
               ),
               Container(
@@ -214,9 +222,15 @@ class _AddDriverState extends State<AddDriver> {
                 ),
                 child: TextField(
                   controller: mobileController,
+                  keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     filled: true,
+                    counterText: '',
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  maxLength: 10,
                 ),
               ),
               Container(
@@ -238,9 +252,15 @@ class _AddDriverState extends State<AddDriver> {
                 ),
                 child: TextField(
                   controller: adharController,
+                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     filled: true,
+                    counterText: '',
                   ),
+                  maxLength: 12,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                 ),
               ),
               Container(
@@ -287,6 +307,11 @@ class _AddDriverState extends State<AddDriver> {
                     filled: true,
                   ),
                   maxLines: null,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[a-zA-Z0-9. ]"),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -308,11 +333,15 @@ class _AddDriverState extends State<AddDriver> {
                 ),
                 child: TextField(
                   controller: pincodeController,
+                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     filled: true,
                     counterText: '',
                   ),
                   maxLength: 6,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                 ),
               ),
               const SizedBox(
