@@ -64,16 +64,14 @@ class _VehiclesListState extends State<VehiclesList> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  const Icon(
-                                    Icons.numbers,
-                                    size: 15,
-                                  ),
                                   Text(
-                                    dataController.vehicles[index].capacity ??
-                                        '',
+                                      "Type: ${dataController.vehicles[index].type ?? ''}"),
+                                  Text(
+                                    "Seats:${dataController.vehicles[index].capacity ?? ''}",
                                     style: const TextStyle(
                                       fontSize: 13.0,
                                       fontWeight: FontWeight.normal,
