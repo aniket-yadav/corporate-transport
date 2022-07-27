@@ -1,9 +1,12 @@
+import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/menu/menu_header.dart';
 import 'package:corporatetransportapp/utils/session_manager.dart';
 import 'package:corporatetransportapp/view/add_feedback.dart';
 import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/login.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class DriverMenuScreen extends StatefulWidget {
   final VoidCallback? closeDrawer;
@@ -97,12 +100,50 @@ class _DriverMenuScreenState extends State<DriverMenuScreen> {
                       ),
                     ),
                   ),
+                   InkWell(
+                    onTap: () async {
+                      widget.closeDrawer!();
+                      final dataController =
+                          Provider.of<DataController>(context, listen: false);
+                      var res = await Location.instance.hasPermission();
+                      if (res == PermissionStatus.granted) {
+                        var loc = await Location.instance.getLocation();
+
+                        dataController.callSOS(
+                            lat: "${loc.latitude ?? ''}",
+                            log: "${loc.longitude ?? ''}");
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.sos,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "SOS",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap:  () async { 
                       SessionManager.signOut();
                       if (!(await SessionManager.hasUser())) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
-                            Login.routeName, (Route<dynamic> route) => false);
+                             Login.routeName, (Route<dynamic> route) => false);
                       }
                     },
                     child: Container(

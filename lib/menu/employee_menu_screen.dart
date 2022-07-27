@@ -178,7 +178,7 @@ class _EmployeeMenuScreenState extends State<EmployeeMenuScreen> {
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0,
+                         horizontal: 15.0,
                         vertical: 10.0,
                       ),
                       child: Row(
