@@ -69,12 +69,30 @@ class _DriverListState extends State<DriverList> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  dataController.drivers[index].name ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      flex: 0,
+                                      child: Text(
+                                        dataController.drivers[index].name ??
+                                            '',
+                                        style: const TextStyle(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    IconButton(
+                                      onPressed: () {
+                                        dataController.deleteDriver(
+                                            id: dataController
+                                                    .drivers[index].driverid ??
+                                                '');
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                    )
+                                  ],
                                 ),
                                 Text(
                                   dataController.drivers[index].mobile ?? '',
@@ -87,10 +105,6 @@ class _DriverListState extends State<DriverList> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    const Icon(
-                                      Icons.numbers,
-                                      size: 15,
-                                    ),
                                     if (dataController.vehicles.isNotEmpty)
                                       Text(
                                         "#${dataController.vehicles.firstWhere((element) => element.vehicleid == dataController.drivers[index].vehicleid, orElse: () => VehicleModel()).platno ?? 'N/A'}",
@@ -124,7 +138,7 @@ class _DriverListState extends State<DriverList> {
             Navigator.of(context).pushNamed(AddDriver.routeName);
           },
           icon: const Icon(
-            Icons.person_add,
+            Icons.add,
             color: Colors.white,
           ),
         ),

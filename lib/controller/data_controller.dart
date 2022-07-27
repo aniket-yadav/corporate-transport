@@ -558,4 +558,64 @@ class DataController with ChangeNotifier {
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
+
+  deleteVehicle({required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.deleteVehicle,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      getVehicles();
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  deleteDriver({required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.deleteDriver,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      getDrivers();
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  deleteEmployee({required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.deleteEmployee,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      getEmployees();
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 }

@@ -68,12 +68,30 @@ class _EmployeeListState extends State<EmployeeList> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  dataController.employees[index].name ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      flex: 0,
+                                      child: Text(
+                                        dataController.employees[index].name ??
+                                            '',
+                                        style: const TextStyle(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    IconButton(
+                                      onPressed: () {
+                                        dataController.deleteEmployee(
+                                            id: dataController.employees[index]
+                                                    .employeeid ??
+                                                '');
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                    )
+                                  ],
                                 ),
                                 Text(
                                   dataController.employees[index].mobile ?? '',
@@ -119,7 +137,7 @@ class _EmployeeListState extends State<EmployeeList> {
             Navigator.of(context).pushNamed(AddEmployee.routeName);
           },
           icon: const Icon(
-            Icons.person_add,
+            Icons.add,
             color: Colors.white,
           ),
         ),

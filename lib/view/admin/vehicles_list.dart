@@ -49,12 +49,29 @@ class _VehiclesListState extends State<VehiclesList> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                dataController.vehicles[index].name ?? '',
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    flex: 0,
+                                    child: Text(
+                                      dataController.vehicles[index].name ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      dataController.deleteVehicle(
+                                          id: dataController
+                                                  .vehicles[index].vehicleid ??
+                                              '');
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                  )
+                                ],
                               ),
                               Text(
                                 dataController.vehicles[index].model ?? '',
