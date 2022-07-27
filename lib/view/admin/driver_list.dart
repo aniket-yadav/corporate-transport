@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/model/vehicle_model.dart';
 import 'package:corporatetransportapp/view/admin/add_driver.dart';
 import 'package:corporatetransportapp/widgets/option_modal.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _DriverListState extends State<DriverList> {
                                 Text(
                                   dataController.drivers[index].name ?? '',
                                   style: const TextStyle(
-                                     fontSize: 15.0,
+                                    fontSize: 15.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -90,19 +91,14 @@ class _DriverListState extends State<DriverList> {
                                       Icons.numbers,
                                       size: 15,
                                     ),
-                                    Text(
-                                      dataController.vehicles
-                                              .firstWhere((element) =>
-                                                  element.vehicleid ==
-                                                  dataController
-                                                      .drivers[index].vehicleid)
-                                              .platno ??
-                                          '',
-                                      style: const TextStyle(
-                                        fontSize: 13.0,
-                                        fontWeight: FontWeight.normal,
+                                    if (dataController.vehicles.isNotEmpty)
+                                      Text(
+                                        "#${dataController.vehicles.firstWhere((element) => element.vehicleid == dataController.drivers[index].vehicleid, orElse: () => VehicleModel()).platno ?? 'N/A'}",
+                                        style: const TextStyle(
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 )
                               ],

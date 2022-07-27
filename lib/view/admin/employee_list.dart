@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/model/vehicle_model.dart';
 import 'package:corporatetransportapp/view/admin/add_employee.dart';
 import 'package:corporatetransportapp/widgets/option_modal.dart';
 import 'package:flutter/material.dart';
@@ -85,24 +86,14 @@ class _EmployeeListState extends State<EmployeeList> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    const Icon(
-                                      Icons.numbers,
-                                      size: 15,
-                                    ),
-                                    Text(
-                                      dataController.vehicles
-                                              .firstWhere((element) =>
-                                                  element.vehicleid ==
-                                                  dataController
-                                                      .employees[index]
-                                                      .vehicleid)
-                                              .platno ??
-                                          '',
-                                      style: const TextStyle(
-                                        fontSize: 13.0,
-                                        fontWeight: FontWeight.normal,
+                                    if (dataController.vehicles.isNotEmpty)
+                                      Text(
+                                        "#${dataController.vehicles.firstWhere((element) => element.vehicleid == dataController.employees[index].vehicleid, orElse: () => VehicleModel()).platno ?? 'N/A'}",
+                                        style: const TextStyle(
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 )
                               ],
