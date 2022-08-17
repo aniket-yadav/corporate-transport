@@ -15,6 +15,6 @@ class FirebaseDatabase {
   }
 
   static Stream<QuerySnapshot> getChats({required String vehicle}) {
-    return chats.collection(vehicle).snapshots();
+    return chats.collection(vehicle).orderBy('time').snapshots();
   }
 }

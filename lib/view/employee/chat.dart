@@ -14,6 +14,12 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final TextEditingController chatController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -30,10 +36,6 @@ class _ChatState extends State<Chat> {
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
                 }
 
                 return ListView(
