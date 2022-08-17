@@ -23,7 +23,7 @@ class _DriverMapState extends State<DriverMap> {
     ),
     zoom: 14.4746,
   );
-
+  int count = 0;
   Timer? timer;
   GoogleMapController? controller;
   DataController? dataController;
@@ -31,26 +31,30 @@ class _DriverMapState extends State<DriverMap> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<DataController>(context, listen: false).getMyPaasengers();
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         getUpdatedLocation();
       });
     });
   }
- 
+
   getUpdatedLocation() async {
     dataController?.getVehicle();
     controller = await _controller.future;
-    controller?.moveCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(
-            double.parse(dataController?.vehicle?.latitude ?? "0"),
-            double.parse(dataController?.vehicle?.longitude ?? '0'),
+    if (count < 2) {
+      count++;
+      controller?.moveCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(
+              double.parse(dataController?.vehicle?.latitude ?? "0"),
+              double.parse(dataController?.vehicle?.longitude ?? '0'),
+            ),
+            zoom: 18.0,
           ),
-          zoom: 18.0,
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -64,7 +68,7 @@ class _DriverMapState extends State<DriverMap> {
   @override
   Widget build(BuildContext context) {
     dataController = Provider.of<DataController>(context);
- 
+
     return Scaffold(
       body: GoogleMap(
         myLocationButtonEnabled: true,
@@ -78,13 +82,26 @@ class _DriverMapState extends State<DriverMap> {
         mapType: MapType.normal,
         markers: {
           Marker(
-              markerId: MarkerId(dataController?.vehicle?.vehicleid ?? ''),
-              position: LatLng(
-                double.parse(dataController?.vehicle?.latitude ?? "0"),
-                double.parse(dataController?.vehicle?.longitude ?? '0'),
-              ),
-              infoWindow:
-                  InfoWindow(title: dataController?.vehicle?.platno ?? '')),
+            markerId: MarkerId(dataController?.vehicle?.vehicleid ?? ''),
+            position: LatLng(
+              double.parse(dataController?.vehicle?.latitude ?? "0"),
+              double.parse(dataController?.vehicle?.longitude ?? '0'),
+            ),
+            infoWindow:
+                InfoWindow(title: dataController?.vehicle?.platno ?? ''),
+          ),
+          ...dataController!.myPassengers
+              .map(
+                (e) => Marker(
+                  markerId: MarkerId(e.employeeid ?? ''),
+                  position: LatLng(
+                    double.parse(e.latitude ?? "0"),
+                    double.parse(e.longitude ?? '0'),
+                  ),
+                  infoWindow: InfoWindow(title: e.name ?? ''),
+                ),
+              )
+              .toList(),
         },
         initialCameraPosition: dataController?.vehicle != null
             ? CameraPosition(

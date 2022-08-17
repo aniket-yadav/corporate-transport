@@ -408,6 +408,9 @@ class DataController with ChangeNotifier {
   }
 
   void updateLocation({required String latitude, String? longitude}) async {
+    if (user.vehicleid == null) {
+      return;
+    }
     Map<String, dynamic> body = {
       "vehicleId": user.vehicleid,
       "longitude": longitude,

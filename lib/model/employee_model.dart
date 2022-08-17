@@ -14,6 +14,8 @@ class EmployeeModel {
   String? vehicleid;
   String? name;
   String? riding;
+  String? latitude;
+  String? longitude;
   EmployeeModel({
     this.name,
     this.mobile,
@@ -30,27 +32,29 @@ class EmployeeModel {
     this.empid,
     this.employeeid,
     this.riding,
+    this.latitude,this.longitude,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic>? json) {
     return EmployeeModel(
-        role: json?['role'],
-        address: json?['address'],
-        email: json?['email'],
-        mobile: json?['mobile'],
-        name: json?['name'],
-        pincode: json?['pincode'],
-        empid: json?['empid'],
-        age: json?['age'],
-        employeeid: json?['employeeid'],
-        password: json?['password'],
-        username: json?['username'],
-        vehicleid: json?['vehicleid'],
-        gender: json?['gender'],
-        image: json?['image'],
-        riding: json?['riding'],
-        );
-        
+      role: json?['role'],
+      address: json?['address'],
+      email: json?['email'],
+      mobile: json?['mobile'],
+      name: json?['name'],
+      pincode: json?['pincode'],
+      empid: json?['empid'],
+      age: json?['age'],
+      employeeid: json?['employeeid'],
+      password: json?['password'],
+      username: json?['username'],
+      vehicleid: json?['vehicleid'],
+      gender: json?['gender'],
+      image: json?['image'],
+      riding: json?['riding'],
+      latitude: json?['latitude'],
+      longitude: json?['longitude']
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -70,6 +74,8 @@ class EmployeeModel {
       'gender': gender,
       'image': image,
       'riding': riding,
+      'latitude': latitude,
+      'longitude': longitude,
     };
     temp.removeWhere((key, value) => value == null);
 
