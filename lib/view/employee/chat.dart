@@ -38,37 +38,47 @@ class _ChatState extends State<Chat> {
                   return const Text('Something went wrong');
                 }
 
-                return ListView(
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                        document.data()! as Map<String, dynamic>;
-                    return ChatBubble(
-                        user: data['user'] ?? '',
-                        text: data['message'],
-                        isCurrentUser:
-                            dataController.user.name == data['user']);
-                  }).toList(),
-                );
+                if (snapshot.hasData) {
+                  return ListView(
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return ChatBubble(
+                          user: data['user'] ?? '',
+                          text: data['message'],
+                          isCurrentUser:
+                              dataController.user.name == data['user']);
+                    }).toList(),
+                  );
+                } else {
+                  return Container();
+                }
               },
             ),
           ),
-          TextField(
-            controller: chatController,
-            decoration: InputDecoration(
-              filled: true,
-              suffixIconConstraints: const BoxConstraints(maxWidth: 80),
-              suffix: GestureDetector(
-                onTap: () {
-                  FirebaseDatabase.sendMessage(
-                    user: dataController.user.name ?? '',
-                    message: chatController.text.trim(),
-                    vehicle: dataController.user.vehicleid ?? '',
-                  ).then((value) {
-                    chatController.text = '';
-                  });
-                },
-                child: const Icon(Icons.send),
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 15.0,
+              vertical: 10,
+            ),
+            child: TextField(
+              controller: chatController,
+              decoration: InputDecoration(
+                filled: true,
+                suffixIconConstraints: const BoxConstraints(maxWidth: 80),
+                suffix: GestureDetector(
+                  onTap: () {
+                    FirebaseDatabase.sendMessage(
+                      user: dataController.user.name ?? '',
+                      message: chatController.text.trim(),
+                      vehicle: dataController.user.vehicleid ?? '',
+                    ).then((value) {
+                      chatController.text = '';
+                    });
+                  },
+                  child: const Icon(Icons.send),
+                ),
               ),
             ),
           ),
