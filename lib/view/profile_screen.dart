@@ -1,9 +1,14 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/enum/roles.dart';
+import 'package:corporatetransportapp/utils/global_variable.dart';
+import 'package:corporatetransportapp/view/employee/my_pickup_point.dart';
 import 'package:corporatetransportapp/widgets/data_tile.dart';
 import 'package:corporatetransportapp/widgets/profile_photo_selection_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:corporatetransportapp/assets/images.dart' as icons;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,10 +24,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  LatLng? mapLocation;
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<DataController>(context);
-    
+    print(userProvider.user.latitude);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -141,6 +147,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icons.email,
               label: userProvider.user.email ?? '',
             ),
+            if (userProvider.user.role == Role.employee.name)
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 20,
+                ),
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    var hasPermission = await Location.instance.hasPermission();
+                    
+                    if (hasPermission == PermissionStatus.granted) {
+                      if (userProvider.user.latitude != null &&
+                          userProvider.user.longitude != null) {
+                        mapLocation = LatLng(
+                            double.parse(userProvider.user.latitude ?? '0'),
+                            double.parse(userProvider.user.longitude ?? '0'));
+                      }
+                      var latlng = await Navigator.of(
+                              GlobalVariable.navState.currentContext!)
+                          .pushNamed(
+                        MyPickupPoint.routeName,
+                        arguments: mapLocation,
+                      );
+                      if (latlng != null) {
+                        setState(() {
+                          mapLocation = latlng as LatLng;
+                          print(latlng.latitude);
+                          print(latlng.longitude);
+                          if (mapLocation != null) {
+                            userProvider.updateMyPickup(pickup: mapLocation!);
+                          }
+                        });
+                      }
+                    } else {
+                      await Location.instance.requestPermission();
+                    }
+                  },
+                  child: Text(userProvider.user.latitude != null &&
+                          userProvider.user.longitude != null
+                      ? "Change Pick-up Point"
+                      : "Add Pick-Up Point"),
+                ),
+              ),
           ],
         ),
       ),

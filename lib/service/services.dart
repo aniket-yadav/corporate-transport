@@ -22,3 +22,4 @@ const sosCallService = "api/call_sos.php";
 const deleteVehicle = "api/delete_vehicle.php";
 const deleteEmployee = "api/delete_employee.php";
 const deleteDriver = "api/delete_driver.php";
+const updatePickup = "api/update_pickup.php";

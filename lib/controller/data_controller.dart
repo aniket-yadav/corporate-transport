@@ -21,6 +21,7 @@ import 'package:corporatetransportapp/view/admin/admin_main_screen.dart';
 import 'package:corporatetransportapp/view/driver/driver_main_screen.dart';
 import 'package:corporatetransportapp/view/employee/employee_main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DataController with ChangeNotifier {
   User _user = User();
@@ -617,6 +618,29 @@ class DataController with ChangeNotifier {
 
     if (res.statusCode == 200) {
       getEmployees();
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  // employee pickup update
+  updateMyPickup({required LatLng pickup}) async {
+    Map<String, dynamic> body = {
+      "id": user.userid,
+      'lat': '${pickup.latitude}',
+      'lag': '${pickup.longitude}',
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updatePickup,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      fetchProfile(role: Role.employee.name);
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
