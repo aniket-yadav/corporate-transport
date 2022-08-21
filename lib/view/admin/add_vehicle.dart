@@ -1,5 +1,6 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/enum/vehicles.dart';
+import 'package:corporatetransportapp/model/vehicle_model.dart';
 import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,29 @@ class _AddVehicleState extends State<AddVehicle> {
   TextEditingController colorController = TextEditingController();
   TextEditingController noController = TextEditingController();
 
+  VehicleModel? _vehicleModel;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        _vehicleModel =
+            ModalRoute.of(context)?.settings.arguments as VehicleModel?;
+        if (_vehicleModel != null) {
+          nameController.text = _vehicleModel?.name ?? '';
+          modelController.text = _vehicleModel?.model ?? '';
+          selectedType = Vehicles.bus.name == _vehicleModel?.type
+              ? Vehicles.bus
+              : Vehicles.car;
+          colorController.text = _vehicleModel?.color ?? '';
+          noController.text = _vehicleModel?.platno ?? '';
+          seatCapacity = int.parse(_vehicleModel?.capacity ?? '0');
+        }
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -36,14 +60,27 @@ class _AddVehicleState extends State<AddVehicle> {
             var model = modelController.text.trim();
             var color = colorController.text.trim();
             var no = noController.text.trim();
-            dataController.addVehicle(
-              capacity: '$seatCapacity',
-              color: color,
-              model: model,
-              name: name,
-              no: no,
-              type: selectedType?.name,
-            );
+
+            if (_vehicleModel != null) {
+              dataController.updateVehicle(
+                id: _vehicleModel?.vehicleid ?? '',
+                capacity: '$seatCapacity',
+                color: color,
+                model: model,
+                name: name,
+                no: no,
+                type: selectedType?.name,
+              );
+            } else {
+              dataController.addVehicle(
+                capacity: '$seatCapacity',
+                color: color,
+                model: model,
+                name: name,
+                no: no,
+                type: selectedType?.name,
+              );
+            }
           },
           style: ButtonStyle(
             shape: MaterialStateProperty.all(
@@ -106,7 +143,6 @@ class _AddVehicleState extends State<AddVehicle> {
                   fontSize: 14.0,
                 ),
               ),
-              
             ),
             Container(
               margin: const EdgeInsets.symmetric(

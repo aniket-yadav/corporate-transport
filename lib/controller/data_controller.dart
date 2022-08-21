@@ -306,6 +306,37 @@ class DataController with ChangeNotifier {
     }
   }
 
+  updateVehicle({
+    String? name,
+    String? model,
+    String? type,
+    String? color,
+    String? no,
+    String? capacity,
+    String? id,
+  }) async {
+    Map<String, dynamic> body = {
+      'id': id,
+      "name": name,
+      "model": model,
+      "type": type,
+      "color": color,
+      "no": no,
+      "capacity": capacity,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateVehicle,
+    );
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      getVehicles();
+    }
+  }
+
   List<VehicleModel> _vehicles = [];
 
   List<VehicleModel> get vehicles => _vehicles;

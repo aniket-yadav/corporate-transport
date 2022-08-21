@@ -20,88 +20,95 @@ class _VehiclesListState extends State<VehiclesList> {
         child: ListView.builder(
           itemCount: dataController.vehicles.length,
           itemBuilder: ((context, index) {
-            return Card(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 15.0,
-                vertical: 8.0,
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
+            return InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(AddVehicle.routeName,
+                    arguments: dataController.vehicles[index]);
+              },
+              child: Card(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 15.0,
-                  vertical: 15.0,
+                  vertical: 8.0,
                 ),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: constraints.maxWidth * 0.3,
-                          child: const Icon(
-                            Icons.time_to_leave,
-                            size: 70,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0,
+                    vertical: 15.0,
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: constraints.maxWidth * 0.3,
+                            child: const Icon(
+                              Icons.time_to_leave,
+                              size: 70,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: constraints.maxWidth * 0.7,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    flex: 0,
-                                    child: Text(
-                                      dataController.vehicles[index].name ?? '',
-                                      style: const TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: constraints.maxWidth * 0.7,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      flex: 0,
+                                      child: Text(
+                                        dataController.vehicles[index].name ??
+                                            '',
+                                        style: const TextStyle(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Spacer(),
-                                  IconButton(
-                                    onPressed: () {
-                                      dataController.deleteVehicle(
-                                          id: dataController
-                                                  .vehicles[index].vehicleid ??
-                                              '');
-                                    },
-                                    icon: const Icon(Icons.delete),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                dataController.vehicles[index].model ?? '',
-                                style: const TextStyle(
-                                  fontSize: 13.0,
-                                  fontWeight: FontWeight.normal,
+                                    const Spacer(),
+                                    IconButton(
+                                      onPressed: () {
+                                        dataController.deleteVehicle(
+                                            id: dataController.vehicles[index]
+                                                    .vehicleid ??
+                                                '');
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                    )
+                                  ],
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                      "Type: ${dataController.vehicles[index].type ?? ''}"),
-                                  Text(
-                                    "Seats:${dataController.vehicles[index].capacity ?? ''}",
-                                    style: const TextStyle(
-                                      fontSize: 13.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                Text(
+                                  dataController.vehicles[index].model ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  },
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                        "Type: ${dataController.vehicles[index].type ?? ''}"),
+                                    Text(
+                                      "Seats:${dataController.vehicles[index].capacity ?? ''}",
+                                      style: const TextStyle(
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             );
