@@ -25,6 +25,7 @@ class TransportApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DataController()),
       ],
       child: MaterialApp(
+        title: "Corporate Ride",
         navigatorKey: GlobalVariable.navState,
         routes: routes,
         debugShowCheckedModeBanner: false,
