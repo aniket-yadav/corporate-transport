@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/model/employee_model.dart';
 import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:corporatetransportapp/widgets/gender_radio.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class AddEmployee extends StatefulWidget {
 
 class _AddEmployeeState extends State<AddEmployee> {
   int currentAge = 25;
-  
+
   String selectedGender = "";
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -24,6 +25,32 @@ class _AddEmployeeState extends State<AddEmployee> {
   TextEditingController empIdController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
+
+  EmployeeModel? _employeeModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        _employeeModel =
+            ModalRoute.of(context)?.settings.arguments as EmployeeModel?;
+
+        if (_employeeModel != null) {
+          nameController.text = _employeeModel?.name ?? '';
+          emailController.text = _employeeModel?.email ?? '';
+          currentAge = int.parse(_employeeModel?.age ?? '0');
+          selectedGender = _employeeModel?.gender ?? '';
+          mobileController.text = _employeeModel?.mobile ?? '';
+          empIdController.text = _employeeModel?.empid ?? '';
+          addressController.text = _employeeModel?.address ?? '';
+          pincodeController.text = _employeeModel?.pincode ?? '';
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -49,16 +76,31 @@ class _AddEmployeeState extends State<AddEmployee> {
               var employeeId = empIdController.text.trim();
               var address = addressController.text.trim();
               var pincode = pincodeController.text.trim();
-              dataController.addEmployee(
-                empid: employeeId,
-                address: address,
-                age: '$currentAge',
-                email: email,
-                gender: selectedGender,
-                mobile: mobile,
-                name: name,
-                pincode: pincode,
-              );
+
+              if (_employeeModel != null) {
+                dataController.updateEmployee(
+                  id: _employeeModel?.employeeid ?? '',
+                  empid: employeeId,
+                  address: address,
+                  age: '$currentAge',
+                  email: email,
+                  gender: selectedGender,
+                  mobile: mobile,
+                  name: name,
+                  pincode: pincode,
+                );
+              } else {
+                dataController.addEmployee(
+                  empid: employeeId,
+                  address: address,
+                  age: '$currentAge',
+                  email: email,
+                  gender: selectedGender,
+                  mobile: mobile,
+                  name: name,
+                  pincode: pincode,
+                );
+              }
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
@@ -130,7 +172,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                   decoration: const InputDecoration(
                     filled: true,
                   ),
-                  
                 ),
               ),
               Container(
@@ -228,9 +269,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                     counterText: '',
                   ),
                   maxLength: 10,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
               Container(
@@ -317,9 +356,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                     counterText: '',
                   ),
                   maxLength: 6,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
               const SizedBox(

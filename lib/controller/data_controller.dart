@@ -676,4 +676,39 @@ class DataController with ChangeNotifier {
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
+
+  updateEmployee({
+    String? id,
+    String? name,
+    String? email,
+    String? age,
+    String? gender,
+    String? mobile,
+    String? empid,
+    String? address,
+    String? pincode,
+  }) async {
+    Map<String, dynamic> body = {
+      "id": id,
+      "name": name,
+      "email": email,
+      "age": age,
+      "gender": gender,
+      "mobile": mobile,
+      "empid": empid,
+      "address": address,
+      "pincode": pincode,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateEmployee,
+    );
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      getEmployees();
+    }
+  }
 }

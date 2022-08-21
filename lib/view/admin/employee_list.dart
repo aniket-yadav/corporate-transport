@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/model/employee_model.dart';
 import 'package:corporatetransportapp/model/vehicle_model.dart';
 import 'package:corporatetransportapp/view/admin/add_employee.dart';
 import 'package:corporatetransportapp/widgets/option_modal.dart';
@@ -13,6 +14,21 @@ class EmployeeList extends StatefulWidget {
 }
 
 class _EmployeeListState extends State<EmployeeList> {
+  void busAssign(EmployeeModel emp, DataController dataController) async {
+    var res = await showOptionModal(context, emp.vehicleid,
+        dataController.vehicles.map((e) => e.platno).toList());
+    if (res != null) {
+      dataController.updateBus(
+        bus: dataController.vehicles
+                .firstWhere((element) => element.platno == res)
+                .vehicleid ??
+            '',
+        userId: emp.employeeid ?? '',
+        role: "employee",
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -24,20 +40,79 @@ class _EmployeeListState extends State<EmployeeList> {
           itemBuilder: ((context, index) {
             return InkWell(
               onTap: () async {
-                var res = await showOptionModal(
-                    context,
-                    dataController.employees[index].vehicleid,
-                    dataController.vehicles.map((e) => e.platno).toList());
-                if (res != null) {
-                  dataController.updateBus(
-                    bus: dataController.vehicles
-                            .firstWhere((element) => element.platno == res)
-                            .vehicleid ??
-                        '',
-                    userId: dataController.employees[index].employeeid ?? '',
-                    role: "employee",
-                  );
-                }
+                await showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) {
+                      return Wrap(
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              color: Colors.white,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 25.0,
+                              horizontal: 25.0,
+                            ),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pushNamed(
+                                          AddEmployee.routeName,
+                                          arguments:
+                                              dataController.employees[index]);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(
+                                        10,
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.edit),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text("Edit"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      busAssign(dataController.employees[index],
+                                          dataController);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(
+                                        10,
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.directions_bus),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text("Assign bus"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                        ],
+                      );
+                    });
               },
               child: Card(
                 margin: const EdgeInsets.symmetric(

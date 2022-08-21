@@ -24,3 +24,4 @@ const deleteEmployee = "api/delete_employee.php";
 const deleteDriver = "api/delete_driver.php";
 const updatePickup = "api/update_pickup.php";
 const updateVehicle = "api/update_vehicle.php";
+const updateEmployee = "api/update_employee.php";
