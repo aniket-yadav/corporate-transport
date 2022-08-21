@@ -4,6 +4,7 @@ import 'package:corporatetransportapp/utils/session_manager.dart';
 import 'package:corporatetransportapp/view/add_feedback.dart';
 import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/employee/chat.dart';
+import 'package:corporatetransportapp/view/employee/my_billings.dart';
 import 'package:corporatetransportapp/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -64,6 +65,35 @@ class _EmployeeMenuScreenState extends State<EmployeeMenuScreen> {
                           ),
                           Text(
                             "Chat",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(MyBilling.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.payment,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Bills",
                             style: TextStyle(
                               fontSize: 15.0,
                             ),
@@ -178,7 +208,7 @@ class _EmployeeMenuScreenState extends State<EmployeeMenuScreen> {
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                         horizontal: 15.0,
+                        horizontal: 15.0,
                         vertical: 10.0,
                       ),
                       child: Row(

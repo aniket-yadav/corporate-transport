@@ -108,6 +108,32 @@ class _EmployeeListState extends State<EmployeeList> {
                                       ),
                                     ),
                                   ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      dataController.generateBill(
+                                        bus: dataController
+                                            .employees[index].vehicleid,
+                                        id: dataController
+                                            .employees[index].employeeid,
+                                      );
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(
+                                        10,
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.payment),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text("Generate Bill"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ]),
                           ),
                         ],

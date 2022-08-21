@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:cashfree_pg/cashfree_pg.dart';
+import 'package:corporatetransportapp/model/bill_model.dart';
+import 'package:corporatetransportapp/model/bill_response.dart';
 import 'package:corporatetransportapp/model/driver_model.dart';
 import 'package:corporatetransportapp/model/drivers_response.dart';
 import 'package:corporatetransportapp/model/employee_model.dart';
@@ -22,6 +25,7 @@ import 'package:corporatetransportapp/view/driver/driver_main_screen.dart';
 import 'package:corporatetransportapp/view/employee/employee_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class DataController with ChangeNotifier {
   User _user = User();
@@ -747,6 +751,176 @@ class DataController with ChangeNotifier {
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
       Navigator.of(GlobalVariable.navState.currentContext!).pop();
       getEmployees();
+    }
+  }
+
+  generateBill({
+    String? id,
+    String? bus,
+  }) async {
+    Map<String, dynamic> body = {
+      'employeeId': id,
+      'bus': bus,
+      'duration': DateFormat('MMMM yyyy').format(DateTime.now()),
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.generateBill,
+    );
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+
+      getAllBills();
+    }
+  }
+
+  List<BillModel> _allBills = [];
+
+  List<BillModel> get allBills => _allBills;
+
+  set allBills(List<BillModel> value) {
+    _allBills = value;
+    notifyListeners();
+  }
+
+  getAllBills() async {
+    var res = await serviceCallGet(
+      path: services.getAllBills,
+    );
+
+    if (res.statusCode == 200) {
+      BillingResponse billingResponse =
+          BillingResponse.fromJson(jsonDecode(res.body));
+      if (billingResponse.success == true) {
+        if (billingResponse.data != null) {
+          allBills = billingResponse.data ?? [];
+        } else {
+          allBills = [];
+        }
+      } else {
+        allBills = [];
+      }
+    } else {
+      allBills = [];
+    }
+  }
+
+  markPaid(String id) async {
+    Map<String, dynamic> body = {
+      'id': id,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.markPaid,
+    );
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+
+      getAllBills();
+    }
+  }
+
+  List<BillModel> _allMyBills = [];
+
+  List<BillModel> get allMyBills => _allMyBills;
+
+  set allMyBills(List<BillModel> value) {
+    _allMyBills = value;
+    notifyListeners();
+  }
+
+  fetchAllMyBillings() async {
+    Map<String, dynamic> body = {
+      'id': user.userid ?? '',
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.myBillings,
+    );
+
+    if (res.statusCode == 200) {
+      BillingResponse billingResponse =
+          BillingResponse.fromJson(jsonDecode(res.body));
+      if (billingResponse.success == true) {
+        if (billingResponse.data != null) {
+          allMyBills = billingResponse.data ?? [];
+        } else {
+          allMyBills = [];
+        }
+      } else {
+        allMyBills = [];
+      }
+    } else {
+      allMyBills = [];
+    }
+  }
+
+  void makePayment({required String amount, required String orderid}) async {
+    Map<String, dynamic> body = {
+      "amount": amount,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.getAccessTokenService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    var jsonResponse = jsonDecode(res.body);
+    if (jsonResponse['success'] == true) {
+      Map<String, String> params = {
+        'stage': jsonResponse['mode'],
+        'orderAmount': amount,
+        'orderId': jsonResponse['orderid'],
+        'orderCurrency': 'INR',
+        'customerName': user.name ?? '',
+        'customerPhone': user.mobile ?? '',
+        'customerEmail': user.email ?? '',
+        'tokenData': jsonResponse['cftoken'],
+        'appId': jsonResponse['id'],
+      };
+      CashfreePGSDK.doPayment(params).then((value) {
+        if (value != null) {
+          if (value['txStatus'] == 'SUCCESS') {
+            verifySignature(orderid: orderid, value: value);
+          } else {
+            ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
+                .showSnackBar(
+              const SnackBar(
+                content: Text("Payment Failed"),
+              ),
+            );
+          }
+        }
+      });
+    } else {
+      snackBar(
+          jsonResponse['message'], GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  verifySignature(
+      {required Map<dynamic, dynamic> value, required String orderid}) async {
+    value['bookingid'] = orderid;
+    var res = await serviceCallPost(
+      body: value.cast<String, dynamic>(),
+      path: services.verifySignatureService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        fetchAllMyBillings();
+      }
+
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
 }

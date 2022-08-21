@@ -52,6 +52,7 @@ dependencies:
   open_file: ^3.2.1
   intl: ^0.17.0
   permission_handler: ^8.1.6
+  cashfree_pg: ^2.0.10+30
 
 dev_dependencies:
   flutter_test:

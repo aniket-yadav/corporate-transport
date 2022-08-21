@@ -1,6 +1,7 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
 import 'package:corporatetransportapp/menu/menu_header.dart';
 import 'package:corporatetransportapp/utils/session_manager.dart';
+import 'package:corporatetransportapp/view/admin/billing.dart';
 import 'package:corporatetransportapp/view/admin/feedbacks.dart';
 import 'package:corporatetransportapp/view/change_password.dart';
 import 'package:corporatetransportapp/view/login.dart';
@@ -42,6 +43,36 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(Billing.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.payment,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Bills",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                 
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
