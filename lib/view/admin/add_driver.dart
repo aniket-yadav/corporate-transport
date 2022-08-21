@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/model/driver_model.dart';
 import 'package:corporatetransportapp/widgets/custom_number_selection.dart';
 import 'package:corporatetransportapp/widgets/gender_radio.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,32 @@ class _AddDriverState extends State<AddDriver> {
   TextEditingController adharController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
+
+  DriverModel? _driverModel;
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        _driverModel =
+            ModalRoute.of(context)?.settings.arguments as DriverModel?;
+
+        if (_driverModel != null) {
+          nameController.text = _driverModel?.name ?? '';
+          emailController.text = _driverModel?.email ?? '';
+          currentAge = int.parse(_driverModel?.age ?? '0');
+          selectedGender = _driverModel?.gender ?? '';
+          mobileController.text = _driverModel?.mobile ?? '';
+          adharController.text = _driverModel?.aadharno ?? '';
+          experienceYears = int.parse(_driverModel?.experience ?? '0');
+          addressController.text = _driverModel?.address ?? '';
+          pincodeController.text = _driverModel?.pincode ?? '';
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -48,17 +75,33 @@ class _AddDriverState extends State<AddDriver> {
               var adhar = adharController.text.trim();
               var address = addressController.text.trim();
               var pincode = pincodeController.text.trim();
-              dataController.addDriver(
-                aadharno: adhar,
-                address: address,
-                age: '$currentAge',
-                email: email,
-                experience: '$experienceYears',
-                gender: selectedGender,
-                mobile: mobile,
-                name: name,
-                pincode: pincode,
-              );
+
+              if (_driverModel != null) {
+                dataController.updateDriver(
+                  id:_driverModel?.driverid ?? '',
+                  aadharno: adhar,
+                  address: address,
+                  age: '$currentAge',
+                  email: email,
+                  experience: '$experienceYears',
+                  gender: selectedGender,
+                  mobile: mobile,
+                  name: name,
+                  pincode: pincode,
+                );
+              } else {
+                dataController.addDriver(
+                  aadharno: adhar,
+                  address: address,
+                  age: '$currentAge',
+                  email: email,
+                  experience: '$experienceYears',
+                  gender: selectedGender,
+                  mobile: mobile,
+                  name: name,
+                  pincode: pincode,
+                );
+              }
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
@@ -130,7 +173,6 @@ class _AddDriverState extends State<AddDriver> {
                   decoration: const InputDecoration(
                     filled: true,
                   ),
-                  
                 ),
               ),
               Container(
@@ -227,9 +269,7 @@ class _AddDriverState extends State<AddDriver> {
                     filled: true,
                     counterText: '',
                   ),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   maxLength: 10,
                 ),
               ),
@@ -258,9 +298,7 @@ class _AddDriverState extends State<AddDriver> {
                     counterText: '',
                   ),
                   maxLength: 12,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
               Container(
@@ -339,9 +377,7 @@ class _AddDriverState extends State<AddDriver> {
                     counterText: '',
                   ),
                   maxLength: 6,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
               const SizedBox(

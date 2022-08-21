@@ -186,6 +186,44 @@ class DataController with ChangeNotifier {
     }
   }
 
+  updateDriver({
+    String? id,
+    String? name,
+    String? email,
+    String? age,
+    String? gender,
+    String? mobile,
+    String? aadharno,
+    String? experience,
+    String? address,
+    String? pincode,
+  }) async {
+    Map<String, dynamic> body = {
+      "id": id,
+      "name": name,
+      "email": email,
+      "age": age,
+      "gender": gender,
+      "mobile": mobile,
+      "aadharno": aadharno,
+      "experience": experience,
+      "address": address,
+      "pincode": pincode,
+    };
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateDriver,
+    );
+
+    print(res.body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      getDrivers();
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+    }
+  }
+
   List<DriverModel> _drivers = [];
 
   List<DriverModel> get drivers => _drivers;

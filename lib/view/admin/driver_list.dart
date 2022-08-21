@@ -1,4 +1,5 @@
 import 'package:corporatetransportapp/controller/data_controller.dart';
+import 'package:corporatetransportapp/model/driver_model.dart';
 import 'package:corporatetransportapp/model/vehicle_model.dart';
 import 'package:corporatetransportapp/view/admin/add_driver.dart';
 import 'package:corporatetransportapp/widgets/option_modal.dart';
@@ -13,6 +14,21 @@ class DriverList extends StatefulWidget {
 }
 
 class _DriverListState extends State<DriverList> {
+  void busAssign(DriverModel driver, DataController dataController) async {
+    var res = await showOptionModal(context, driver.vehicleid,
+        dataController.vehicles.map((e) => e.platno).toList());
+    if (res != null) {
+      dataController.updateBus(
+        bus: dataController.vehicles
+                .firstWhere((element) => element.platno == res)
+                .vehicleid ??
+            '',
+        userId: driver.driverid ?? '',
+        role: "driver",
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -25,20 +41,79 @@ class _DriverListState extends State<DriverList> {
           itemBuilder: ((context, index) {
             return InkWell(
               onTap: () async {
-                var res = await showOptionModal(
-                    context,
-                    dataController.drivers[index].vehicleid,
-                    dataController.vehicles.map((e) => e.platno).toList());
-                if (res != null) {
-                  dataController.updateBus(
-                    bus: dataController.vehicles
-                            .firstWhere((element) => element.platno == res)
-                            .vehicleid ??
-                        '',
-                    userId: dataController.drivers[index].driverid ?? '',
-                    role: "driver",
-                  );
-                }
+                await showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) {
+                      return Wrap(
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              color: Colors.white,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 25.0,
+                              horizontal: 25.0,
+                            ),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pushNamed(
+                                          AddDriver.routeName,
+                                          arguments:
+                                              dataController.drivers[index]);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(
+                                        10,
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.edit),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text("Edit"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      busAssign(dataController.drivers[index],
+                                          dataController);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(
+                                        10,
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.directions_bus),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text("Assign bus"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                        ],
+                      );
+                    });
               },
               child: Card(
                 margin: const EdgeInsets.symmetric(
